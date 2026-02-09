@@ -1,1163 +1,1521 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Extreme Weather Future Lens — Action or Inaction?</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extreme Weather Future Lens — Action or Inaction?</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c5f7a;
+            --secondary: #5a8fa8;
+            --accent: #d97d54;
+            --hope-green: #6b9080;
+            --water: #7db3d5;
+            --bg-light: #fafaf8;
+            --bg-white: #ffffff;
+            --text: #2a2a2a;
+            --text-medium: #5a5a5a;
+            --text-light: #8a8a8a;
+            --border: rgba(44, 95, 122, 0.15);
+        }
 
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg-light);
+            color: var(--text);
+            line-height: 1.6;
+        }
 
-  <style>
-    :root {
-      --primary: #2c5f7a;
-      --secondary: #5a8fa8;
-      --accent: #d97d54;
-      --hope-green: #6b9080;
-      --water: #7db3d5;
-      --bg-light: #fafaf8;
-      --bg-white: #ffffff;
-      --text: #2a2a2a;
-      --text-medium: #5a5a5a;
-      --text-light: #8a8a8a;
-      --border: rgba(44, 95, 122, 0.15);
-    }
+        h1, h2, h3 {
+            font-family: 'Newsreader', serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(250, 250, 248, 0.97);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
 
-    body {
-      font-family: 'Work Sans', sans-serif;
-      background: var(--bg-light);
-      color: var(--text);
-      line-height: 1.6;
-    }
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    h1, h2, h3 { font-family: 'Newsreader', serif; font-weight: 600; line-height: 1.2; }
+        .nav-logo {
+            font-family: 'Newsreader', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
 
-    /* Navigation */
-    .nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: rgba(250, 250, 248, 0.97);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
-      border-bottom: 1px solid var(--border);
-    }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
 
-    .nav-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 1.25rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        .nav-item {
+            position: relative;
+        }
 
-    .nav-logo {
-      font-family: 'Newsreader', serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--primary);
-    }
+        .nav-link {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-medium);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            display: block;
+            padding: 0.5rem 0;
+        }
 
-    .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-item { position: relative; }
+        .nav-link:hover {
+            color: var(--primary);
+        }
 
-    .nav-link {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--text-medium);
-      text-decoration: none;
-      transition: color 0.3s ease;
-      cursor: pointer;
-      display: block;
-      padding: 0.5rem 0;
-    }
-    .nav-link:hover { color: var(--primary); }
+        .nav-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
 
-    .nav-dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: white;
-      min-width: 200px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-      padding: 0.5rem 0;
-      margin-top: 0.5rem;
-    }
-    .nav-item:hover .nav-dropdown {
-      opacity: 1; visibility: visible; transform: translateY(0);
-    }
+        .nav-item:hover .nav-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
 
-    .nav-dropdown-item {
-      padding: 0.75rem 1.5rem;
-      color: var(--text-medium);
-      text-decoration: none;
-      display: block;
-      transition: all 0.3s ease;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-    .nav-dropdown-item:hover { background: var(--bg-light); color: var(--primary); }
+        .nav-dropdown-item {
+            padding: 0.75rem 1.5rem;
+            color: var(--text-medium);
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
 
-    .progress-indicator { display: flex; gap: 0.5rem; align-items: center; }
-    .progress-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--border);
-      transition: all 0.3s;
-    }
-    .progress-dot.active {
-      background: var(--primary);
-      width: 24px;
-      border-radius: 4px;
-    }
+        .nav-dropdown-item:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
 
-    /* Footer */
-    .footer {
-      background: #4a4a4a;
-      padding: 3rem 2rem;
-      margin-top: 4rem;
-    }
-    .footer-content { max-width: 1400px; margin: 0 auto; }
+        .progress-indicator {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
 
-    .footer-nav {
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      margin-bottom: 2rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      flex-wrap: wrap;
-    }
-    .footer-nav-link {
-      color: rgba(255, 255, 255, 0.85);
-      text-decoration: none;
-      font-size: 1.05rem;
-      transition: color 0.3s ease;
-      font-weight: 400;
-      cursor: pointer;
-    }
-    .footer-nav-link:hover { color: white; }
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.3s;
+        }
 
-    .footer-copyright {
-      text-align: center;
-      color: rgba(255, 255, 255, 0.75);
-      font-size: 0.95rem;
-      margin-bottom: 2rem;
-    }
+        .progress-dot.active {
+            background: var(--primary);
+            width: 24px;
+            border-radius: 4px;
+        }
 
-    .footer-logos {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 3rem;
-      flex-wrap: wrap;
-    }
-    .footer-logos img {
-      height: 60px;
-      max-width: 150px;
-      object-fit: contain;
-      opacity: 0.7;
-      filter: brightness(0) invert(1);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    .footer-logos img:hover { opacity: 1; transform: scale(1.05); }
+        /* Footer */
+        .footer {
+            background: #4a4a4a;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
 
-    /* Landing Page */
-    .landing {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 6rem 2rem 4rem;
-      position: relative;
-    }
-    .landing::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(107, 144, 128, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 70% 80%, rgba(125, 179, 213, 0.08) 0%, transparent 50%);
-      z-index: 0;
-    }
-    .landing-content {
-      position: relative;
-      z-index: 1;
-      max-width: 850px;
-      text-align: center;
-    }
-    .landing h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      color: var(--primary);
-      animation: fadeInUp 0.8s ease-out;
-    }
-    .landing-statement {
-      font-size: 1.4rem;
-      color: var(--text-medium);
-      margin-bottom: 3rem;
-      font-weight: 400;
-      line-height: 1.6;
-      animation: fadeInUp 0.8s ease-out 0.2s both;
-    }
-    .landing-description {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: var(--text);
-      margin-bottom: 2rem;
-      max-width: 680px;
-      margin-left: auto;
-      margin-right: auto;
-      animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-    .video-container {
-      max-width: 800px;
-      margin: 0 auto 3.5rem;
-      animation: fadeInUp 0.8s ease-out 0.5s both;
-    }
-    .video-container video {
-      width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(44, 95, 122, 0.15);
-    }
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            flex-wrap: wrap;
+        }
 
-    .entry-options {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease-out 0.8s both;
-      margin-top: 6rem;
-    }
+        .footer-nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+            font-weight: 400;
+        }
 
-    .entry-button {
-      background: var(--bg-white);
-      border: 2px solid var(--primary);
-      padding: 1.5rem 2.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      min-width: 240px;
-      text-align: left;
-      position: relative;
-      overflow: hidden;
-    }
-    .entry-button::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 4px; height: 100%;
-      background: var(--accent);
-      transform: scaleY(0);
-      transition: transform 0.3s ease;
-    }
-    .entry-button:hover::before { transform: scaleY(1); }
-    .entry-button:hover {
-      transform: translateX(8px);
-      box-shadow: 0 4px 20px rgba(44, 95, 122, 0.15);
-    }
-    .entry-button h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-      color: var(--primary);
-    }
-    .entry-button p { font-size: 0.95rem; color: var(--text-medium); }
+        .footer-nav-link:hover {
+            color: white;
+        }
 
-    /* About Sections */
-    .about-sections {
-      width: 100%;
-      margin: 6rem 0 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4rem;
-      animation: fadeInUp 0.8s ease-out 0.7s both;
-    }
+        .footer-copyright {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
 
-    .about-card {
-      width: 100%;
-      padding: 6rem 2rem;
-      position: relative;
-      color: white;
-      overflow: hidden;
-    }
-    .about-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.5;
-      z-index: 0;
-    }
+        .footer-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
 
-    /* UPDATED: use repo paths (images/) */
-    .about-card.who-we-are::before {
-      background-image: url('images/team.png');
-    }
-    .about-card.what-we-do::before {
-      background-image: url('images/ew.png');
-    }
+        .footer-logos img {
+            height: 60px;
+            max-width: 150px;
+            object-fit: contain;
+            opacity: 0.7;
+            filter: brightness(0) invert(1);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
 
-    .about-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(44, 95, 122, 0.95) 0%, rgba(90, 143, 168, 0.9) 100%);
-      z-index: 1;
-    }
-    .about-content {
-      position: relative;
-      z-index: 2;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .about-card h2 {
-      font-size: 2.8rem;
-      margin-bottom: 2rem;
-      color: white;
-      font-weight: 600;
-    }
-    .about-card p {
-      font-size: 1.25rem;
-      line-height: 2;
-      color: rgba(255, 255, 255, 0.95);
-      max-width: 1000px;
-    }
+        .footer-logos img:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
 
-    /* Scenario Page */
-    .scenario-page {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 8rem 2rem 4rem;
-    }
-    .scenario-page h1 { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--primary); }
-    .scenario-page h2 { font-size: 2rem; margin-bottom: 1rem; color: var(--primary); }
+        /* Landing Page */
+        .landing {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+        }
 
-    .intro-text {
-      font-size: 1.15rem;
-      margin-bottom: 3rem;
-      max-width: 800px;
-      color: var(--text-medium);
-    }
+        .landing::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(107, 144, 128, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(125, 179, 213, 0.08) 0%, transparent 50%);
+            z-index: 0;
+        }
 
-    .comparison-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
+        .landing-content {
+            position: relative;
+            z-index: 1;
+            max-width: 850px;
+            text-align: center;
+        }
 
-    .scenario-card {
-      background: var(--bg-white);
-      border: 2px solid var(--border);
-      padding: 2rem;
-      transition: all 0.3s ease;
-    }
-    .scenario-card:hover {
-      border-color: var(--primary);
-      box-shadow: 0 4px 20px rgba(44, 95, 122, 0.1);
-    }
-    .scenario-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
-    .scenario-card.inaction h3 { color: var(--accent); }
-    .scenario-card.action h3 { color: var(--hope-green); }
+        .landing h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            animation: fadeInUp 0.8s ease-out;
+        }
 
-    /* Damage Image */
-    .damage-image-container { margin: 2rem 0; text-align: center; }
+        .landing-statement {
+            font-size: 1.4rem;
+            color: var(--text-medium);
+            margin-bottom: 3rem;
+            font-weight: 400;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
 
-    .damage-image {
-      width: 100%;
-      max-width: 600px;
-      height: 300px;
-      background: var(--bg-light);
-      border: 2px dashed var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-light);
-      font-style: italic;
-      margin: 0 auto;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .damage-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 6px;
-    }
+        .landing-description {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text);
+            margin-bottom: 2rem;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
 
-    .image-caption {
-      font-size: 0.9rem;
-      color: var(--text-medium);
-      margin-top: 0.75rem;
-      font-style: italic;
-    }
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto 3.5rem;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
 
-    /* Team Page Styles */
-    .team-page {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 8rem 2rem 4rem;
-    }
-    .team-page h1 {
-      font-size: 3rem;
-      color: var(--primary);
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .team-intro {
-      text-align: center;
-      font-size: 1.2rem;
-      color: var(--text-medium);
-      max-width: 800px;
-      margin: 0 auto 4rem;
-      line-height: 1.8;
-    }
-    .team-section { margin-bottom: 5rem; }
-    .team-section-title {
-      font-size: 2.2rem;
-      color: var(--primary);
-      margin-bottom: 2.5rem;
-      text-align: center;
-      padding-bottom: 1rem;
-      border-bottom: 3px solid var(--hope-green);
-    }
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2.5rem;
-      margin-bottom: 3rem;
-    }
-    .team-card {
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
-      border: 2px solid var(--border);
-    }
-    .team-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-      border-color: var(--primary);
-    }
-    .team-photo {
-      width: 100%;
-      aspect-ratio: 1;
-      background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .team-photo img { width: 100%; height: 100%; object-fit: cover; }
-    .team-info { padding: 1.75rem; }
-    .team-name {
-      font-size: 1.35rem;
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-    }
-    .team-role {
-      font-size: 0.95rem;
-      color: var(--accent);
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-    .team-bio {
-      font-size: 0.92rem;
-      color: var(--text-medium);
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
-    }
-    .team-expertise { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .expertise-tag {
-      background: rgba(107, 144, 128, 0.1);
-      color: var(--hope-green);
-      padding: 0.35rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
+        .video-container video {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(44, 95, 122, 0.15);
+        }
 
-    /* Methods Page */
-    .methods-page {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 8rem 2rem 4rem;
-    }
-    .methods-page h1 { font-size: 2.5rem; margin-bottom: 2rem; color: var(--primary); }
-    .methods-section { margin-bottom: 3rem; }
-    .methods-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
-    .methods-section p { margin-bottom: 1rem; line-height: 1.8; color: var(--text-medium); }
-    .methods-section ul { margin: 1rem 0; padding-left: 2rem; }
-    .methods-section li { margin-bottom: 0.75rem; color: var(--text-medium); }
+        .entry-options {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+            margin-top: 6rem;
+        }
 
-    /* Shared Elements */
-    .explanation-box {
-      background: rgba(107, 144, 128, 0.08);
-      padding: 2rem;
-      margin: 2rem 0;
-      border-left: 4px solid var(--hope-green);
-    }
-    .explanation-box h4 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary); }
+        .entry-button {
+            background: var(--bg-white);
+            border: 2px solid var(--primary);
+            padding: 1.5rem 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 240px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .highlight-box {
-      background: rgba(44, 95, 122, 0.05);
-      padding: 2rem;
-      margin: 2rem 0;
-      border-left: 4px solid var(--primary);
-      font-style: italic;
-    }
-    .highlight-box p { font-size: 1.1rem; color: var(--text); }
+        .entry-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
 
-    .nav-buttons {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      margin-top: 4rem;
-      flex-wrap: wrap;
-    }
-    .nav-button {
-      padding: 1rem 2.5rem;
-      font-size: 1.05rem;
-      font-weight: 500;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      min-width: 200px;
-    }
-    .nav-button:hover {
-      background: var(--secondary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(44, 95, 122, 0.3);
-    }
-    .nav-button.prev {
-      background: white;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-    }
-    .nav-button.prev:hover { background: var(--bg-light); transform: translateY(-2px); }
+        .entry-button:hover::before {
+            transform: scaleY(1);
+        }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .entry-button:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 20px rgba(44, 95, 122, 0.15);
+        }
 
-    /* Responsive */
-    @media (max-width: 968px) {
-      .comparison-container { grid-template-columns: 1fr; }
-      .team-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-      .about-card { padding: 4rem 2rem; }
-      .about-card h2 { font-size: 2.2rem; }
-      .about-card p { font-size: 1.1rem; }
-      .landing h1 { font-size: 2.5rem; }
-      .nav-links { gap: 1rem; }
-      .footer-nav { gap: 2rem; }
-      .footer-logos { gap: 2rem; }
-      .footer-logos img { height: 50px; max-width: 130px; }
-    }
+        .entry-button h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
 
-    @media (max-width: 640px) {
-      .nav-content { flex-direction: column; gap: 1rem; padding: 1rem; }
-      .nav-links { flex-direction: row; width: 100%; justify-content: center; }
-      .landing h1 { font-size: 2rem; }
-      .landing-statement { font-size: 1.1rem; }
-      .entry-button { min-width: 100%; }
-      .team-grid { grid-template-columns: 1fr; }
-      .footer-nav { flex-direction: column; gap: 1rem; align-items: center; }
-      .footer-logos { gap: 1.5rem; }
-      .footer-logos img { height: 45px; max-width: 110px; }
-    }
-  </style>
+        .entry-button p {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+        }
+
+        /* About Sections */
+        .about-sections {
+            width: 100%;
+            margin: 6rem 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            animation: fadeInUp 0.8s ease-out 0.7s both;
+        }
+
+        .about-card {
+            width: 100%;
+            padding: 6rem 2rem;
+            position: relative;
+            color: white;
+            overflow: hidden;
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .about-card.who-we-are::before {
+            background-image: url('images/team.png');
+        }
+
+        .about-card.what-we-do::before {
+            background-image: url('images/ew.png');
+        }
+
+        .about-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(44, 95, 122, 0.95) 0%, rgba(90, 143, 168, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .about-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-card h2 {
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .about-card p {
+            font-size: 1.25rem;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 1000px;
+        }
+
+        /* Scenario Page */
+        .scenario-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .scenario-page h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .scenario-page h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .intro-text {
+            font-size: 1.15rem;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            color: var(--text-medium);
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .scenario-card {
+            background: var(--bg-white);
+            border: 2px solid var(--border);
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .scenario-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(44, 95, 122, 0.1);
+        }
+
+        .scenario-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .scenario-card.inaction h3 {
+            color: var(--accent);
+        }
+
+        .scenario-card.action h3 {
+            color: var(--hope-green);
+        }
+
+        /* Damage Image */
+        .damage-image-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .damage-image {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            background: var(--bg-light);
+            border: 2px dashed var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-style: italic;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .damage-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .image-caption {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
+        /* Team Page Styles */
+        .team-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .team-page h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .team-intro {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-medium);
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            line-height: 1.8;
+        }
+
+        .team-section {
+            margin-bottom: 5rem;
+        }
+
+        .team-section-title {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--hope-green);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid var(--border);
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .team-photo {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-info {
+            padding: 1.75rem;
+        }
+
+        .team-name {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-role {
+            font-size: 0.95rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .team-bio {
+            font-size: 0.92rem;
+            color: var(--text-medium);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .team-expertise {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .expertise-tag {
+            background: rgba(107, 144, 128, 0.1);
+            color: var(--hope-green);
+            padding: 0.35rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Methods Page */
+        .methods-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .methods-page h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .methods-section {
+            margin-bottom: 3rem;
+        }
+
+        .methods-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .methods-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-medium);
+        }
+
+        .methods-section ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        .methods-section li {
+            margin-bottom: 0.75rem;
+            color: var(--text-medium);
+        }
+
+        /* Shared Elements */
+        .explanation-box {
+            background: rgba(107, 144, 128, 0.08);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--hope-green);
+        }
+
+        .explanation-box h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .highlight-box {
+            background: rgba(44, 95, 122, 0.05);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary);
+            font-style: italic;
+        }
+
+        .highlight-box p {
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            padding: 1rem 2.5rem;
+            font-size: 1.05rem;
+            font-weight: 500;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .nav-button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 95, 122, 0.3);
+        }
+
+        .nav-button.prev {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .nav-button.prev:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .about-card {
+                padding: 4rem 2rem;
+            }
+
+            .about-card h2 {
+                font-size: 2.2rem;
+            }
+
+            .about-card p {
+                font-size: 1.1rem;
+            }
+
+            .landing h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .footer-nav {
+                gap: 2rem;
+            }
+
+            .footer-logos {
+                gap: 2rem;
+            }
+
+            .footer-logos img {
+                height: 50px;
+                max-width: 130px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: row;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .landing h1 {
+                font-size: 2rem;
+            }
+
+            .landing-statement {
+                font-size: 1.1rem;
+            }
+
+            .entry-button {
+                min-width: 100%;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .footer-logos {
+                gap: 1.5rem;
+            }
+
+            .footer-logos img {
+                height: 45px;
+                max-width: 110px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <div id="root"></div>
+    <div id="root"></div>
 
-  <script type="text/babel">
-    const { useState } = React;
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-    // ==========
-    // IMPORTANT:
-    // Put your static files in the repo like this:
-    // images/toronto_Ron.jpg
-    // images/logo/logo_uoft.png
-    // images/case-studies/don-river-before.jpg
-    // images/movie.mp4
-    // ==========
-    const IMG = "images/";
-    const LOGO = "images/logo/";
-    const CASE = "images/case-studies/";
+        function Navigation({ currentStep }) {
+            const totalSteps = 5;
+            
+            const navigate = (step) => {
+                const stepMap = {
+                    'home': 0,
+                    'case-studies': 1,
+                    'team': 3,
+                    'methodology': 4
+                };
+                window.location.hash = step === 'home' ? '' : `#${step}`;
+            };
 
-    function Navigation({ currentStep }) {
-      const totalSteps = 5;
+            return (
+                <nav className="nav">
+                    <div className="nav-content">
+                        <div className="nav-logo">Extreme Weather Future Lens</div>
+                        <div className="nav-links">
+                            <div className="nav-item">
+                                <span className="nav-link">What We Do</span>
+                                <div className="nav-dropdown">
+                                    <a className="nav-dropdown-item" onClick={() => navigate('case-studies')}>Case Studies</a>
+                                </div>
+                            </div>
+                            <div className="nav-item">
+                                <span className="nav-link">Who We Are</span>
+                                <div className="nav-dropdown">
+                                    <a className="nav-dropdown-item" onClick={() => navigate('team')}>Our Team</a>
+                                    <a className="nav-dropdown-item" onClick={() => navigate('methodology')}>Methodology (Our Approach)</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="progress-indicator">
+                            {[...Array(totalSteps)].map((_, i) => (
+                                <div 
+                                    key={i} 
+                                    className={`progress-dot ${i === currentStep ? 'active' : ''}`}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </nav>
+            );
+        }
 
-      const navigate = (step) => {
-        window.location.hash = step === 'home' ? '' : `#${step}`;
-      };
+        function Footer() {
+            return (
+                <footer className="footer">
+                    <div className="footer-content">
+                        <nav className="footer-nav">
+                            <a href="#" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</a>
+                            <a href="#case-studies" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.location.hash = 'case-studies'; }}>Case Studies</a>
+                            <a href="#team" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.location.hash = 'team'; }}>Our Team</a>
+                            <a href="#methodology" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.location.hash = 'methodology'; }}>Methodology</a>
+                        </nav>
+                        
+                        <p className="footer-copyright">
+                            © 2025 Extreme Weather Future Lens. All rights reserved.
+                        </p>
+                        
+                        <div className="footer-logos">
+                            <img src="images/logo/logo_uoft.png" alt="University of Toronto" />
+                            <img src="images/logo/logo_ocad.png" alt="OCAD University" />
+                            <img src="images/logo/logo_upei.png" alt="University of Prince Edward Island" />
+                            <img src="images/logo/logo_viu.png" alt="Vancouver Island University" />
+                        </div>
+                    </div>
+                </footer>
+            );
+        }
 
-      return (
-        <nav className="nav">
-          <div className="nav-content">
-            <div className="nav-logo">Extreme Weather Future Lens</div>
-            <div className="nav-links">
-              <div className="nav-item">
-                <span className="nav-link">What We Do</span>
-                <div className="nav-dropdown">
-                  <a className="nav-dropdown-item" onClick={() => navigate('case-studies')}>Case Studies</a>
+        function LandingPage({ onNext }) {
+            return (
+                <>
+                <div className="landing">
+                    <div className="landing-content">
+                        <h1>Extreme Weather Future Lens</h1>
+                        <div className="landing-statement">
+                            Action or Inaction?
+                        </div>
+                        
+                        <div className="landing-description">
+                            The world is confronted with possibly catastrophic harm from greenhouse gas emissions. 
+                            Global surface temperatures continue their unprecedented rise. There are more frequent 
+                            and severe extreme weather events such as floods and fires. Yet society has not acted 
+                            sufficiently to slow climate change and forestall dangerous weather.
+                        </div>
+
+                        <div className="video-container">
+                            <video controls>
+                                <source src="https://res.cloudinary.com/dd4p37hyq/video/upload/v1770619860/movie_rogsy1.mp4" type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+
+                        <div className="entry-options">
+                            <button className="entry-button" onClick={() => onNext(1)}>
+                                <h3>Explore Case Studies</h3>
+                                <p>See real examples of action vs. inaction</p>
+                            </button>
+                            <button className="entry-button" onClick={() => onNext(3)}>
+                                <h3>Meet Our Team</h3>
+                                <p>Learn about the people behind the work</p>
+                            </button>
+                        </div>
+
+                        <div className="about-sections">
+                            <div className="about-card who-we-are" id="who-we-are">
+                                <div className="about-content">
+                                    <h2>Who We Are</h2>
+                                    <p>
+                                        We are a Canada-wide team of faculty and enthusiastic student volunteers from the 
+                                        Dynamic Graphics Project and School of Cities at the University of Toronto. 
+                                        Extending the pioneering work of British Columbia Emeritus Professor Stephen Sheppard, 
+                                        we visualize extreme weather events.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="about-card what-we-do" id="what-we-do">
+                                <div className="about-content">
+                                    <h2>What We Do</h2>
+                                    <p>
+                                        We help people understand past floods and fires, show how there could be even more 
+                                        destruction in the future, and explain how well-planned actions could reduce future 
+                                        damage. Our goal is behaviour change and thoughtful and open policy deliberations.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <Footer />
+                </>
+            );
+        }
 
-              <div className="nav-item">
-                <span className="nav-link">Who We Are</span>
-                <div className="nav-dropdown">
-                  <a className="nav-dropdown-item" onClick={() => navigate('team')}>Our Team</a>
-                  <a className="nav-dropdown-item" onClick={() => navigate('methodology')}>Methodology (Our Approach)</a>
-                </div>
-              </div>
-            </div>
-
-            <div className="progress-indicator">
-              {[...Array(totalSteps)].map((_, i) => (
-                <div key={i} className={`progress-dot ${i === currentStep ? 'active' : ''}`} />
-              ))}
-            </div>
-          </div>
-        </nav>
-      );
-    }
-
-    function Footer() {
-      return (
-        <footer className="footer">
-          <div className="footer-content">
-            <nav className="footer-nav">
-              <a href="#" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</a>
-              <a href="#case-studies" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.location.hash = 'case-studies'; }}>Case Studies</a>
-              <a href="#team" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.location.hash = 'team'; }}>Our Team</a>
-              <a href="#methodology" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.location.hash = 'methodology'; }}>Methodology</a>
-            </nav>
-
-            <p className="footer-copyright">
-              © 2025 Extreme Weather Future Lens. All rights reserved.
-            </p>
-
-            {/* UPDATED: use repo paths */}
-            <div className="footer-logos">
-              <img src={LOGO + "logo_uoft.png"} alt="University of Toronto" />
-              <img src={LOGO + "logo_ocad.png"} alt="OCAD University" />
-              <img src={LOGO + "logo_upei.png"} alt="University of Prince Edward Island" />
-              <img src={LOGO + "logo_viu.png"} alt="Vancouver Island University" />
-            </div>
-          </div>
-        </footer>
-      );
-    }
-
-    function LandingPage({ onNext }) {
-      return (
-        <>
-          <div className="landing">
-            <div className="landing-content">
-              <h1>Extreme Weather Future Lens</h1>
-              <div className="landing-statement">Action or Inaction?</div>
-
-              <div className="landing-description">
-                The world is confronted with possibly catastrophic harm from greenhouse gas emissions.
-                Global surface temperatures continue their unprecedented rise. There are more frequent
-                and severe extreme weather events such as floods and fires. Yet society has not acted
-                sufficiently to slow climate change and forestall dangerous weather.
-              </div>
-
-              <div className="video-container">
-                {/* UPDATED: use repo path */}
-                <video controls preload="metadata">
-                  <source src={IMG + "movie.mp4"} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-
-              <div className="entry-options">
-                <button className="entry-button" onClick={() => onNext(1)}>
-                  <h3>Explore Case Studies</h3>
-                  <p>See real examples of action vs. inaction</p>
-                </button>
-                <button className="entry-button" onClick={() => onNext(3)}>
-                  <h3>Meet Our Team</h3>
-                  <p>Learn about the people behind the work</p>
-                </button>
-              </div>
-
-              <div className="about-sections">
-                <div className="about-card who-we-are" id="who-we-are">
-                  <div className="about-content">
-                    <h2>Who We Are</h2>
-                    <p>
-                      We are a Canada-wide team of faculty and enthusiastic student volunteers from the
-                      Dynamic Graphics Project and School of Cities at the University of Toronto.
-                      Extending the pioneering work of British Columbia Emeritus Professor Stephen Sheppard,
-                      we visualize extreme weather events.
+        function CaseStudies({ onNext, onPrev }) {
+            return (
+                <>
+                <div className="scenario-page">
+                    <h1>Don River Valley: 2013 Toronto Flood</h1>
+                    <p className="intro-text">
+                        In July 2013, Toronto experienced unprecedented rainfall that overwhelmed the Don River, 
+                        causing extensive flooding across the valley. We've modeled what could have happened 
+                        without government action, and what actually occurred with reconstruction.
                     </p>
-                  </div>
-                </div>
-
-                <div className="about-card what-we-do" id="what-we-do">
-                  <div className="about-content">
-                    <h2>What We Do</h2>
-                    <p>
-                      We help people understand past floods and fires, show how there could be even more
-                      destruction in the future, and explain how well-planned actions could reduce future
-                      damage. Our goal is behaviour change and thoughtful and open policy deliberations.
+                    
+                    <p className="intro-text">
+                        Well-designed images help people think about and understand critical issues. 
+                        Visualization helps them engage with the issues and imagine solutions.
                     </p>
-                  </div>
+
+                    <div className="comparison-container">
+                        <div className="scenario-card inaction">
+                            <h3>Don River Mouth: Before Reconstruction</h3>
+                            <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)' }}>
+                                The Don River mouth often flooded before reconstruction. As storms get worse, 
+                                inaction leads to more frequent and severe flooding of the surrounding areas.
+                            </p>
+                            
+                            <div className="damage-image-container">
+                                <div className="damage-image">
+                                    <img src="images/case studies/don river_before.jpg" alt="Don River mouth flooding before reconstruction" />
+                                </div>
+                                <p className="image-caption">Don River mouth before reconstruction - frequent flooding</p>
+                            </div>
+                        </div>
+
+                        <div className="scenario-card action">
+                            <h3>Don River Mouth: After Reconstruction</h3>
+                            <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)' }}>
+                                Governments collaborated to reconstruct the river's mouth, giving it more ways 
+                                to drain into Toronto harbor. The Portlands is now safe from major flooding, 
+                                allowing thousands of people to be housed on a new island.
+                            </p>
+                            
+                            <div className="damage-image-container">
+                                <div className="damage-image">
+                                    <img src="images/case studies/don river_after.jpg" alt="Don River mouth flooding after reconstruction" />
+                                </div>
+                                <p className="image-caption">Reconstructed Don River mouth - now dry and protected</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="explanation-box">
+                        <h4>The Power of Action</h4>
+                        <p>
+                            The reconstruction of the Don River mouth demonstrates that constructive actions are 
+                            indeed possible. We are not helpless. We can act and combat climate change. However, 
+                            areas to the east are still at risk, requiring more flood protection engineering.
+                        </p>
+                    </div>
+
+                    <div className="nav-buttons">
+                        <button className="nav-button prev" onClick={onPrev}>← Back</button>
+                        <button className="nav-button" onClick={onNext}>See More Examples →</button>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
+                <Footer />
+                </>
+            );
+        }
 
-          <Footer />
-        </>
-      );
-    }
+        function MississaugaCase({ onNext, onPrev }) {
+            return (
+                <>
+                <div className="scenario-page">
+                    <h2>Little Etobicoke Creek: 2013 and 2024 Flooding</h2>
+                    <p className="intro-text">
+                        We have re-created the flooding of Mississauga's Little Etobicoke Creek in both 
+                        two-dimensional bird's-eye view and a more engaging three-dimensional visualization.
+                    </p>
 
-    function CaseStudies({ onNext, onPrev }) {
-      return (
-        <>
-          <div className="scenario-page">
-            <h1>Don River Valley: 2013 Toronto Flood</h1>
-            <p className="intro-text">
-              In July 2013, Toronto experienced unprecedented rainfall that overwhelmed the Don River,
-              causing extensive flooding across the valley. We've modeled what could have happened
-              without government action, and what actually occurred with reconstruction.
-            </p>
+                    <div className="damage-image-container" style={{ marginBottom: '3rem' }}>
+                        <div className="damage-image">
+                            <img src="images/case studies/etobicoke_3d.jpg" alt="Little Etobicoke Creek flooding visualization" />
+                        </div>
+                        <p className="image-caption">2D and 3D visualization of Little Etobicoke Creek flooding</p>
+                    </div>
 
-            <p className="intro-text">
-              Well-designed images help people think about and understand critical issues.
-              Visualization helps them engage with the issues and imagine solutions.
-            </p>
+                    <div className="comparison-container">
+                        <div className="scenario-card inaction">
+                            <h3>Without Engineering Improvements</h3>
+                            <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)' }}>
+                                The critical bend in the creek continues to overflow during major storms, 
+                                causing repeated flooding of nearby properties. As storms intensify with 
+                                climate change, the situation worsens.
+                            </p>
+                            
+                            <div className="damage-image-container">
+                                <div className="damage-image">
+                                    <img src="images/case studies/little_etobicoke_flood.jpg" alt="Current flooding at the bend" />
+                                </div>
+                                <p className="image-caption">Current conditions - recurring flood damage</p>
+                            </div>
+                        </div>
 
-            <div className="comparison-container">
-              <div className="scenario-card inaction">
-                <h3>Don River Mouth: Before Reconstruction</h3>
-                <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)' }}>
-                  The Don River mouth often flooded before reconstruction. As storms get worse,
-                  inaction leads to more frequent and severe flooding of the surrounding areas.
-                </p>
+                        <div className="scenario-card action">
+                            <h3>With Recommended Improvements</h3>
+                            <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)' }}>
+                                An engineering study has recommended enlargement of the river channel at the 
+                                critical bend and a new bridge with larger culverts to the east. These 
+                                improvements become increasingly important as storms get worse.
+                            </p>
+                            
+                            <div className="damage-image-container">
+                                <div className="damage-image">
+                                    <span>Image: Proposed improvements visualization (replace with actual image)</span>
+                                </div>
+                                <p className="image-caption">With engineering improvements - protected community</p>
+                            </div>
+                        </div>
+                    </div>
 
-                <div className="damage-image-container">
-                  <div className="damage-image">
-                    {/* UPDATED: use repo path */}
-                    <img src={CASE + "don-river-before.jpg"} alt="Don River mouth flooding before reconstruction" />
-                  </div>
-                  <p className="image-caption">Don River mouth before reconstruction - frequent flooding</p>
+                    <div className="explanation-box">
+                        <h4>Evidence-Based Solutions</h4>
+                        <p>
+                            Engineering studies provide clear recommendations for flood mitigation. By visualizing 
+                            both current risks and proposed solutions, we help communities understand the benefits 
+                            of taking action before the next major storm arrives.
+                        </p>
+                    </div>
+
+                    <div className="nav-buttons">
+                        <button className="nav-button prev" onClick={onPrev}>← Back</button>
+                        <button className="nav-button" onClick={onNext}>Meet Our Team →</button>
+                    </div>
                 </div>
-              </div>
+                <Footer />
+                </>
+            );
+        }
 
-              <div className="scenario-card action">
-                <h3>Don River Mouth: After Reconstruction</h3>
-                <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)' }}>
-                  Governments collaborated to reconstruct the river's mouth, giving it more ways
-                  to drain into Toronto harbor. The Portlands is now safe from major flooding,
-                  allowing thousands of people to be housed on a new island.
-                </p>
+        function TeamPage({ onNext, onPrev }) {
+            // UofT Teaching & Research
+            const uoftFaculty = [
+                {
+                    name: "Ron Baecker",
+                    role: "Professor Emeritus",
+                    bio: "Coordinating research initiatives and managing collaborative projects across institutions.",
+                    expertise: ["Project Management", "Research", "Coordination"],
+                    photo: "images/toronto_Ron.jpg"
+                },
+                {
+                    name: "John Danahy",
+                    role: "Faculty",
+                    bio: "Creating immersive 3D visualizations of climate scenarios.",
+                    expertise: ["3D Graphics", "Animation", "Visualization"],
+                    photo: "images/toronto_Johny.jpg"
+                },
+                {
+                    name: "Karan Singh",
+                    role: "Faculty",
+                    bio: "Investigating climate change impacts on urban environments.",
+                    expertise: ["Climate Research", "Urban Planning", "Sustainability"],
+                    photo: "images/toronto_Ksingh.jpg"
+                },
+                {
+                    name: "Fanny",
+                    role: "GIS Specialist",
+                    bio: "Mapping flood risks and creating geographic visualizations.",
+                    expertise: ["GIS", "Mapping", "Spatial Analysis"],
+                    photo: "images/toronto_Fanny.jpg"
+                },
+                {
+                    name: "Steve Engels",
+                    role: "Faculty Lead",
+                    bio: "Leading the Dynamic Graphics Project with expertise in visualization and climate communication.",
+                    expertise: ["Climate Visualization", "Graphics", "Education"],
+                    photo: "images/toronto_Steve Engels.jpg"
+                },
+                {
+                    name: "Mike Wotton",
+                    role: "Fire Specialist",
+                    bio: "Expert in wildfire modeling and fire behavior prediction systems.",
+                    expertise: ["Wildfire Science", "Fire Modeling", "Climate Impact"],
+                    photo: "images/toronto_MikeWotton.jpg"
+                },
+                {
+                    name: "Melanie",
+                    role: "Graphic Designer",
+                    bio: "Developing visual materials and information graphics.",
+                    expertise: ["Graphic Design", "Infographics", "Visual Communication"],
+                    photo: "images/ocadu_Melanie.jpg"
+                }
+            ];
 
-                <div className="damage-image-container">
-                  <div className="damage-image">
-                    {/* UPDATED: use repo path */}
-                    <img src={CASE + "don-river-after.jpg"} alt="Don River mouth flooding after reconstruction" />
-                  </div>
-                  <p className="image-caption">Reconstructed Don River mouth - now dry and protected</p>
+            // UofT Students
+            const uoftStudents = [
+                {
+                    name: "Jacob",
+                    role: "Student",
+                    bio: "Building interactive tools and web-based visualization platforms.",
+                    expertise: ["Web Development", "Interactive Design", "Programming"],
+                    photo: "images/toronto_Jacob.jpg"
+                },
+                {
+                    name: "Aria",
+                    role: "Student",
+                    bio: "Creating compelling visual narratives to communicate climate risks.",
+                    expertise: ["Design", "UX/UI", "Data Visualization"],
+                    photo: "images/toronto_Aria.jpg"
+                },
+                {
+                    name: "Junyoung",
+                    role: "Student",
+                    bio: "Managing data infrastructure and processing climate datasets.",
+                    expertise: ["Data Engineering", "Database", "Cloud Computing"],
+                    photo: "images/toronto_Junyoung.jpg"
+                },
+                {
+                    name: "Gregory",
+                    role: "Student",
+                    bio: "Assessing environmental impacts and policy implications.",
+                    expertise: ["Environmental Science", "Policy", "Impact Assessment"],
+                    photo: "images/toronto_Gregory.jpg"
+                },
+                {
+                    name: "Amanda",
+                    role: "Student",
+                    bio: "Analyzing climate data and creating evidence-based visualizations.",
+                    expertise: ["Data Analysis", "Statistics", "Climate Science"],
+                    photo: "images/toronto_Amanda.jpg .png"
+                },
+                {
+                    name: "Michael",
+                    role: "Student",
+                    bio: "Developing advanced modeling systems and visualization tools for climate scenarios.",
+                    expertise: ["Software Development", "3D Modeling", "Simulation"],
+                    photo: "images/toronto_Michael.jpg"
+                },
+                {
+                    name: "Lisa",
+                    role: "Student",
+                    bio: "Connecting with local communities and gathering stakeholder input.",
+                    expertise: ["Community Engagement", "Stakeholder Relations", "Outreach"],
+                    photo: "images/toronto_Lisa.jpg"
+                },
+                {
+                    name: "Caroline",
+                    role: "Student",
+                    bio: "Developing outreach strategies and engaging with communities.",
+                    expertise: ["Public Engagement", "Communications", "Outreach"],
+                    photo: "images/toronto_caroline.jpg"
+                },
+                {
+                    name: "Claire",
+                    role: "Student",
+                    bio: "Supporting research activities and data collection efforts.",
+                    expertise: ["Research", "Data Collection", "Analysis"],
+                    photo: "images/toronto_claire.jpg"
+                },
+                {
+                    name: "Akshata",
+                    role: "Student",
+                    bio: "Modeling water systems and flood behavior patterns.",
+                    expertise: ["Hydrology", "Flood Modeling", "Water Management"],
+                    photo: "images/toronto_Alshata.jpg"
+                }
+            ];
+
+            // OCADU Team
+            const ocaduTeam = [
+                {
+                    name: "Angelika Seeschaaf Veres",
+                    role: "Visual Design Lead",
+                    bio: "Leading visual design initiatives and creative direction for the project.",
+                    expertise: ["Visual Design", "Creative Direction", "Art Direction"],
+                    photo: "images/ocadu_Angelika Seeschaaf Veres.jpg"
+                },
+                {
+                    name: "Koby Barhad",
+                    role: "Interactive Media Designer",
+                    bio: "Creating interactive experiences and multimedia content.",
+                    expertise: ["Interactive Design", "Multimedia", "User Experience"],
+                    photo: "images/ocadu_Koby Barhad.jpg"
+                }
+            ];
+
+            // Other Collaborators
+            const otherCollaborators = [
+                {
+                    name: "Xander",
+                    role: "UPEI Research Partner",
+                    bio: "Contributing expertise from University of Prince Edward Island.",
+                    expertise: ["Maritime Climate", "Regional Analysis", "Collaboration"],
+                    photo: "images/upei_Xander.jpg"
+                },
+                {
+                    name: "Lindsay",
+                    role: "VIU Research Partner",
+                    bio: "Bringing perspectives from Vancouver Island University.",
+                    expertise: ["Pacific Climate", "Coastal Systems", "Research"],
+                    photo: "images/viu_Lindsay.jpg"
+                }
+            ];
+
+            return (
+                <>
+                <div className="team-page">
+                    <h1>Meet Our Team</h1>
+                    <p className="team-intro">
+                        Our multidisciplinary team brings together experts from across Canada, combining skills in 
+                        climate science, visualization, urban planning, and community engagement to create powerful 
+                        tools for climate action.
+                    </p>
+
+                    <div className="team-section">
+                        <h2 className="team-section-title">University of Toronto — Teaching & Research</h2>
+                        <div className="team-grid">
+                            {uoftFaculty.map((member, index) => (
+                                <div key={index} className="team-card">
+                                    <div className="team-photo">
+                                        <img src={member.photo} alt={member.name} />
+                                    </div>
+                                    <div className="team-info">
+                                        <h3 className="team-name">{member.name}</h3>
+                                        <div className="team-role">{member.role}</div>
+                                        <p className="team-bio">{member.bio}</p>
+                                        <div className="team-expertise">
+                                            {member.expertise.map((skill, idx) => (
+                                                <span key={idx} className="expertise-tag">{skill}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="team-section">
+                        <h2 className="team-section-title">University of Toronto — Students</h2>
+                        <div className="team-grid">
+                            {uoftStudents.map((member, index) => (
+                                <div key={index} className="team-card">
+                                    <div className="team-photo">
+                                        <img src={member.photo} alt={member.name} />
+                                    </div>
+                                    <div className="team-info">
+                                        <h3 className="team-name">{member.name}</h3>
+                                        <div className="team-role">{member.role}</div>
+                                        <p className="team-bio">{member.bio}</p>
+                                        <div className="team-expertise">
+                                            {member.expertise.map((skill, idx) => (
+                                                <span key={idx} className="expertise-tag">{skill}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="team-section">
+                        <h2 className="team-section-title">OCAD University Partners</h2>
+                        <div className="team-grid">
+                            {ocaduTeam.map((member, index) => (
+                                <div key={index} className="team-card">
+                                    <div className="team-photo">
+                                        <img src={member.photo} alt={member.name} />
+                                    </div>
+                                    <div className="team-info">
+                                        <h3 className="team-name">{member.name}</h3>
+                                        <div className="team-role">{member.role}</div>
+                                        <p className="team-bio">{member.bio}</p>
+                                        <div className="team-expertise">
+                                            {member.expertise.map((skill, idx) => (
+                                                <span key={idx} className="expertise-tag">{skill}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="team-section">
+                        <h2 className="team-section-title">National Collaborators</h2>
+                        <div className="team-grid">
+                            {otherCollaborators.map((member, index) => (
+                                <div key={index} className="team-card">
+                                    <div className="team-photo">
+                                        <img src={member.photo} alt={member.name} />
+                                    </div>
+                                    <div className="team-info">
+                                        <h3 className="team-name">{member.name}</h3>
+                                        <div className="team-role">{member.role}</div>
+                                        <p className="team-bio">{member.bio}</p>
+                                        <div className="team-expertise">
+                                            {member.expertise.map((skill, idx) => (
+                                                <span key={idx} className="expertise-tag">{skill}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="highlight-box">
+                        <p>
+                            "Together, we're creating visualization tools that empower communities to understand 
+                            climate risks and take meaningful action for a more resilient future."
+                        </p>
+                    </div>
+
+                    <div className="nav-buttons">
+                        <button className="nav-button prev" onClick={onPrev}>← Back</button>
+                        <button className="nav-button" onClick={onNext}>Our Approach →</button>
+                    </div>
                 </div>
-              </div>
-            </div>
+                <Footer />
+                </>
+            );
+        }
 
-            <div className="explanation-box">
-              <h4>The Power of Action</h4>
-              <p>
-                The reconstruction of the Don River mouth demonstrates that constructive actions are
-                indeed possible. We are not helpless. We can act and combat climate change. However,
-                areas to the east are still at risk, requiring more flood protection engineering.
-              </p>
-            </div>
+        function MethodsPage({ onPrev, onRestart }) {
+            return (
+                <>
+                <div className="methods-page">
+                    <h1>Our Approach & Goals</h1>
+                    
+                    <div className="methods-section">
+                        <h2>Advanced Visualization Tools</h2>
+                        <p>
+                            Advanced software for modelling and forecasting helps us create communicative images, 
+                            two- and three-dimensional, static and dynamic, conveying the risks of inaction and 
+                            the benefits of action.
+                        </p>
+                    </div>
 
-            <div className="nav-buttons">
-              <button className="nav-button prev" onClick={onPrev}>← Back</button>
-              <button className="nav-button" onClick={onNext}>See More Examples →</button>
-            </div>
-          </div>
+                    <div className="methods-section">
+                        <h2>Engaging Experiences</h2>
+                        <p>
+                            We produce hypermedia, games, and virtual reality—engaging experiences of flooding 
+                            and soon also of the spread of wildfires. We turn complex climate science and 
+                            inaccessible technical reports into clear visuals and immersive experiences.
+                        </p>
+                    </div>
 
-          <Footer />
-        </>
-      );
-    }
+                    <div className="highlight-box">
+                        <p>
+                            "Our goal is to create experiences that can change behaviour and improve decision-making, 
+                            so together we can help people and cities prepare, act, and stay safe."
+                        </p>
+                    </div>
 
-    function MississaugaCase({ onNext, onPrev }) {
-      return (
-        <>
-          <div className="scenario-page">
-            <h2>Little Etobicoke Creek: 2013 and 2024 Flooding</h2>
-            <p className="intro-text">
-              We have re-created the flooding of Mississauga's Little Etobicoke Creek in both
-              two-dimensional bird's-eye view and a more engaging three-dimensional visualization.
-            </p>
+                    <div className="methods-section">
+                        <h2>Our Framework</h2>
+                        <ul>
+                            <li><strong>Models and Forecasts:</strong> Using advanced climate science for fires and floods</li>
+                            <li><strong>Evocative Images:</strong> Creating deeper understanding through visualization</li>
+                            <li><strong>Rich Experiences:</strong> Building engagement and incentive to act</li>
+                            <li><strong>Behaviour Change:</strong> Promoting commitment and constructive actions</li>
+                            <li><strong>Informed Policy Dialogue:</strong> Enabling thoughtful, open deliberations</li>
+                        </ul>
+                    </div>
 
-            <div className="damage-image-container" style={{ marginBottom: '3rem' }}>
-              <div className="damage-image">
-                {/* UPDATED: fix broken quote + use repo path */}
-                <img src={CASE + "etobicoke-3d.jpg"} alt="Little Etobicoke Creek flooding visualization" />
-              </div>
-              <p className="image-caption">2D and 3D visualization of Little Etobicoke Creek flooding</p>
-            </div>
+                    <div className="methods-section">
+                        <h2>Data Sources</h2>
+                        <p>
+                            Our visualizations are based on:
+                        </p>
+                        <ul>
+                            <li>Engineering studies and flood modeling data</li>
+                            <li>Historical flood records (2013, 2024)</li>
+                            <li>Government reconstruction plans and outcomes</li>
+                            <li>Climate science projections</li>
+                        </ul>
+                    </div>
 
-            <div className="comparison-container">
-              <div className="scenario-card inaction">
-                <h3>Without Engineering Improvements</h3>
-                <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)' }}>
-                  The critical bend in the creek continues to overflow during major storms,
-                  causing repeated flooding of nearby properties. As storms intensify with
-                  climate change, the situation worsens.
-                </p>
+                    <div className="highlight-box">
+                        <p>
+                            "Constructive actions are indeed possible. We are not helpless. 
+                            We can act and combat climate change."
+                        </p>
+                    </div>
 
-                <div className="damage-image-container">
-                  <div className="damage-image">
-                    {/* UPDATED: use repo path */}
-                    <img src={CASE + "little-etobicoke-flood.jpg"} alt="Current flooding at the bend" />
-                  </div>
-                  <p className="image-caption">Current conditions - recurring flood damage</p>
+                    <div className="nav-buttons">
+                        <button className="nav-button prev" onClick={onPrev}>← Back</button>
+                        <button className="nav-button" onClick={onRestart}>Return to Start →</button>
+                    </div>
                 </div>
-              </div>
+                <Footer />
+                </>
+            );
+        }
 
-              <div className="scenario-card action">
-                <h3>With Recommended Improvements</h3>
-                <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)' }}>
-                  An engineering study has recommended enlargement of the river channel at the
-                  critical bend and a new bridge with larger culverts to the east. These
-                  improvements become increasingly important as storms get worse.
-                </p>
+        function App() {
+            const [currentStep, setCurrentStep] = useState(0);
 
-                <div className="damage-image-container">
-                  <div className="damage-image">
-                    <span>Image: Proposed improvements visualization (replace with actual image)</span>
-                  </div>
-                  <p className="image-caption">With engineering improvements - protected community</p>
+            const handleNext = (step) => {
+                setCurrentStep(typeof step === 'number' ? step : currentStep + 1);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            const handlePrev = () => {
+                setCurrentStep(Math.max(0, currentStep - 1));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            const handleRestart = () => {
+                setCurrentStep(0);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            // Listen for URL hash changes for page navigation
+            React.useEffect(() => {
+                const handleHashChange = () => {
+                    const hash = window.location.hash;
+                    if (hash === '#case-studies') {
+                        setCurrentStep(1);
+                    } else if (hash === '#team') {
+                        setCurrentStep(3);
+                    } else if (hash === '#methodology') {
+                        setCurrentStep(4);
+                    } else {
+                        setCurrentStep(0);
+                    }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+
+                window.addEventListener('hashchange', handleHashChange);
+                
+                // Check hash on initial load
+                handleHashChange();
+
+                return () => {
+                    window.removeEventListener('hashchange', handleHashChange);
+                };
+            }, []);
+
+            return (
+                <div className="app-container">
+                    <Navigation currentStep={currentStep} />
+                    {currentStep === 0 && <LandingPage onNext={handleNext} />}
+                    {currentStep === 1 && <CaseStudies onNext={() => handleNext()} onPrev={handlePrev} />}
+                    {currentStep === 2 && <MississaugaCase onNext={() => handleNext()} onPrev={handlePrev} />}
+                    {currentStep === 3 && <TeamPage onNext={() => handleNext()} onPrev={handlePrev} />}
+                    {currentStep === 4 && <MethodsPage onPrev={handlePrev} onRestart={handleRestart} />}
                 </div>
-              </div>
-            </div>
+            );
+        }
 
-            <div className="explanation-box">
-              <h4>Evidence-Based Solutions</h4>
-              <p>
-                Engineering studies provide clear recommendations for flood mitigation. By visualizing
-                both current risks and proposed solutions, we help communities understand the benefits
-                of taking action before the next major storm arrives.
-              </p>
-            </div>
-
-            <div className="nav-buttons">
-              <button className="nav-button prev" onClick={onPrev}>← Back</button>
-              <button className="nav-button" onClick={onNext}>Meet Our Team →</button>
-            </div>
-          </div>
-
-          <Footer />
-        </>
-      );
-    }
-
-    function TeamPage({ onNext, onPrev }) {
-      // NOTE:
-      // I kept your original filenames, but your repo currently includes names with spaces / extra extensions.
-      // Best practice: rename files to remove spaces and strange suffixes, then update these strings.
-
-      const uoftFaculty = [
-        { name: "Ron Baecker", role: "Professor Emeritus", bio: "Coordinating research initiatives and managing collaborative projects across institutions.", expertise: ["Project Management", "Research", "Coordination"], photo: IMG + "toronto_Ron.jpg" },
-        { name: "John Danahy", role: "Faculty", bio: "Creating immersive 3D visualizations of climate scenarios.", expertise: ["3D Graphics", "Animation", "Visualization"], photo: IMG + "toronto_Johny.jpg" },
-        { name: "Karan Singh", role: "Faculty", bio: "Investigating climate change impacts on urban environments.", expertise: ["Climate Research", "Urban Planning", "Sustainability"], photo: IMG + "toronto_ksingh_pp.jpg" },
-        { name: "Fanny", role: "GIS Specialist", bio: "Mapping flood risks and creating geographic visualizations.", expertise: ["GIS", "Mapping", "Spatial Analysis"], photo: IMG + "toronto_Fanny.jpg" },
-        { name: "Steve Engels", role: "Faculty Lead", bio: "Leading the Dynamic Graphics Project with expertise in visualization and climate communication.", expertise: ["Climate Visualization", "Graphics", "Education"], photo: IMG + "toronto_Steve_Engels.jpg" },
-        { name: "Mike Wotton", role: "Fire Specialist", bio: "Expert in wildfire modeling and fire behavior prediction systems.", expertise: ["Wildfire Science", "Fire Modeling", "Climate Impact"], photo: IMG + "toronto_MikeWotton.jpg" },
-        { name: "Melanie", role: "Graphic Designer", bio: "Developing visual materials and information graphics.", expertise: ["Graphic Design", "Infographics", "Visual Communication"], photo: IMG + "ocadu_Melanie.jpg" },
-      ];
-
-      const uoftStudents = [
-        { name: "Jacob", role: "Student", bio: "Building interactive tools and web-based visualization platforms.", expertise: ["Web Development", "Interactive Design", "Programming"], photo: IMG + "toronto_Jacob.jpg" },
-        { name: "Aria", role: "Student", bio: "Creating compelling visual narratives to communicate climate risks.", expertise: ["Design", "UX/UI", "Data Visualization"], photo: IMG + "toronto_Aria.jpg" },
-        { name: "Junyoung", role: "Student", bio: "Managing data infrastructure and processing climate datasets.", expertise: ["Data Engineering", "Database", "Cloud Computing"], photo: IMG + "toronto_Junyoung.jpg" },
-        { name: "Gregory", role: "Student", bio: "Assessing environmental impacts and policy implications.", expertise: ["Environmental Science", "Policy", "Impact Assessment"], photo: IMG + "toronto_Gregory.jpg" },
-        { name: "Amanda", role: "Student", bio: "Analyzing climate data and creating evidence-based visualizations.", expertise: ["Data Analysis", "Statistics", "Climate Science"], photo: IMG + "toronto_Amanda.png" },
-        { name: "Michael", role: "Student", bio: "Developing advanced modeling systems and visualization tools for climate scenarios.", expertise: ["Software Development", "3D Modeling", "Simulation"], photo: IMG + "toronto_Michael.jpg" },
-        { name: "Lisa", role: "Student", bio: "Connecting with local communities and gathering stakeholder input.", expertise: ["Community Engagement", "Stakeholder Relations", "Outreach"], photo: IMG + "toronto_Lisa.jpg" },
-        { name: "Caroline", role: "Student", bio: "Developing outreach strategies and engaging with communities.", expertise: ["Public Engagement", "Communications", "Outreach"], photo: IMG + "toronto_caroline.jpg" },
-        { name: "Claire", role: "Student", bio: "Supporting research activities and data collection efforts.", expertise: ["Research", "Data Collection", "Analysis"], photo: IMG + "toronto_claire.jpg" },
-        { name: "Akshata", role: "Student", bio: "Modeling water systems and flood behavior patterns.", expertise: ["Hydrology", "Flood Modeling", "Water Management"], photo: IMG + "toronto_Akshata.jpg" },
-      ];
-
-      const ocaduTeam = [
-        { name: "Angelika Seeschaaf Veres", role: "Visual Design Lead", bio: "Leading visual design initiatives and creative direction for the project.", expertise: ["Visual Design", "Creative Direction", "Art Direction"], photo: IMG + "ocadu_Angelika_Seeschaaf_Veres.jpg" },
-        { name: "Koby Barhad", role: "Interactive Media Designer", bio: "Creating interactive experiences and multimedia content.", expertise: ["Interactive Design", "Multimedia", "User Experience"], photo: IMG + "ocadu_Koby_Barhad.jpg" },
-      ];
-
-      const otherCollaborators = [
-        { name: "Xander", role: "UPEI Research Partner", bio: "Contributing expertise from University of Prince Edward Island.", expertise: ["Maritime Climate", "Regional Analysis", "Collaboration"], photo: IMG + "upei_xander.jpg" },
-        { name: "Lindsay", role: "VIU Research Partner", bio: "Bringing perspectives from Vancouver Island University.", expertise: ["Pacific Climate", "Coastal Systems", "Research"], photo: IMG + "viu_Lindsay.jpg" },
-      ];
-
-      return (
-        <>
-          <div className="team-page">
-            <h1>Meet Our Team</h1>
-            <p className="team-intro">
-              Our multidisciplinary team brings together experts from across Canada, combining skills in
-              climate science, visualization, urban planning, and community engagement to create powerful
-              tools for climate action.
-            </p>
-
-            <div className="team-section">
-              <h2 className="team-section-title">University of Toronto — Teaching & Research</h2>
-              <div className="team-grid">
-                {uoftFaculty.map((member, index) => (
-                  <div key={index} className="team-card">
-                    <div className="team-photo">
-                      <img src={member.photo} alt={member.name} />
-                    </div>
-                    <div className="team-info">
-                      <h3 className="team-name">{member.name}</h3>
-                      <div className="team-role">{member.role}</div>
-                      <p className="team-bio">{member.bio}</p>
-                      <div className="team-expertise">
-                        {member.expertise.map((skill, idx) => (
-                          <span key={idx} className="expertise-tag">{skill}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="team-section">
-              <h2 className="team-section-title">University of Toronto — Students</h2>
-              <div className="team-grid">
-                {uoftStudents.map((member, index) => (
-                  <div key={index} className="team-card">
-                    <div className="team-photo">
-                      <img src={member.photo} alt={member.name} />
-                    </div>
-                    <div className="team-info">
-                      <h3 className="team-name">{member.name}</h3>
-                      <div className="team-role">{member.role}</div>
-                      <p className="team-bio">{member.bio}</p>
-                      <div className="team-expertise">
-                        {member.expertise.map((skill, idx) => (
-                          <span key={idx} className="expertise-tag">{skill}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="team-section">
-              <h2 className="team-section-title">OCAD University Partners</h2>
-              <div className="team-grid">
-                {ocaduTeam.map((member, index) => (
-                  <div key={index} className="team-card">
-                    <div className="team-photo">
-                      <img src={member.photo} alt={member.name} />
-                    </div>
-                    <div className="team-info">
-                      <h3 className="team-name">{member.name}</h3>
-                      <div className="team-role">{member.role}</div>
-                      <p className="team-bio">{member.bio}</p>
-                      <div className="team-expertise">
-                        {member.expertise.map((skill, idx) => (
-                          <span key={idx} className="expertise-tag">{skill}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="team-section">
-              <h2 className="team-section-title">National Collaborators</h2>
-              <div className="team-grid">
-                {otherCollaborators.map((member, index) => (
-                  <div key={index} className="team-card">
-                    <div className="team-photo">
-                      <img src={member.photo} alt={member.name} />
-                    </div>
-                    <div className="team-info">
-                      <h3 className="team-name">{member.name}</h3>
-                      <div className="team-role">{member.role}</div>
-                      <p className="team-bio">{member.bio}</p>
-                      <div className="team-expertise">
-                        {member.expertise.map((skill, idx) => (
-                          <span key={idx} className="expertise-tag">{skill}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="highlight-box">
-              <p>
-                "Together, we're creating visualization tools that empower communities to understand
-                climate risks and take meaningful action for a more resilient future."
-              </p>
-            </div>
-
-            <div className="nav-buttons">
-              <button className="nav-button prev" onClick={onPrev}>← Back</button>
-              <button className="nav-button" onClick={onNext}>Our Approach →</button>
-            </div>
-          </div>
-
-          <Footer />
-        </>
-      );
-    }
-
-    function MethodsPage({ onPrev, onRestart }) {
-      return (
-        <>
-          <div className="methods-page">
-            <h1>Our Approach & Goals</h1>
-
-            <div className="methods-section">
-              <h2>Advanced Visualization Tools</h2>
-              <p>
-                Advanced software for modelling and forecasting helps us create communicative images,
-                two- and three-dimensional, static and dynamic, conveying the risks of inaction and
-                the benefits of action.
-              </p>
-            </div>
-
-            <div className="methods-section">
-              <h2>Engaging Experiences</h2>
-              <p>
-                We produce hypermedia, games, and virtual reality—engaging experiences of flooding
-                and soon also of the spread of wildfires. We turn complex climate science and
-                inaccessible technical reports into clear visuals and immersive experiences.
-              </p>
-            </div>
-
-            <div className="highlight-box">
-              <p>
-                "Our goal is to create experiences that can change behaviour and improve decision-making,
-                so together we can help people and cities prepare, act, and stay safe."
-              </p>
-            </div>
-
-            <div className="methods-section">
-              <h2>Our Framework</h2>
-              <ul>
-                <li><strong>Models and Forecasts:</strong> Using advanced climate science for fires and floods</li>
-                <li><strong>Evocative Images:</strong> Creating deeper understanding through visualization</li>
-                <li><strong>Rich Experiences:</strong> Building engagement and incentive to act</li>
-                <li><strong>Behaviour Change:</strong> Promoting commitment and constructive actions</li>
-                <li><strong>Informed Policy Dialogue:</strong> Enabling thoughtful, open deliberations</li>
-              </ul>
-            </div>
-
-            <div className="methods-section">
-              <h2>Data Sources</h2>
-              <p>Our visualizations are based on:</p>
-              <ul>
-                <li>Engineering studies and flood modeling data</li>
-                <li>Historical flood records (2013, 2024)</li>
-                <li>Government reconstruction plans and outcomes</li>
-                <li>Climate science projections</li>
-              </ul>
-            </div>
-
-            <div className="highlight-box">
-              <p>
-                "Constructive actions are indeed possible. We are not helpless.
-                We can act and combat climate change."
-              </p>
-            </div>
-
-            <div className="nav-buttons">
-              <button className="nav-button prev" onClick={onPrev}>← Back</button>
-              <button className="nav-button" onClick={onRestart}>Return to Start →</button>
-            </div>
-          </div>
-
-          <Footer />
-        </>
-      );
-    }
-
-    function App() {
-      const [currentStep, setCurrentStep] = useState(0);
-
-      const handleNext = (step) => {
-        setCurrentStep(typeof step === 'number' ? step : currentStep + 1);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      };
-
-      const handlePrev = () => {
-        setCurrentStep(Math.max(0, currentStep - 1));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      };
-
-      const handleRestart = () => {
-        setCurrentStep(0);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      };
-
-      React.useEffect(() => {
-        const handleHashChange = () => {
-          const hash = window.location.hash;
-          if (hash === '#case-studies') setCurrentStep(1);
-          else if (hash === '#team') setCurrentStep(3);
-          else if (hash === '#methodology') setCurrentStep(4);
-          else setCurrentStep(0);
-
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.addEventListener('hashchange', handleHashChange);
-        handleHashChange();
-
-        return () => window.removeEventListener('hashchange', handleHashChange);
-      }, []);
-
-      return (
-        <div className="app-container">
-          <Navigation currentStep={currentStep} />
-          {currentStep === 0 && <LandingPage onNext={handleNext} />}
-          {currentStep === 1 && <CaseStudies onNext={() => handleNext()} onPrev={handlePrev} />}
-          {currentStep === 2 && <MississaugaCase onNext={() => handleNext()} onPrev={handlePrev} />}
-          {currentStep === 3 && <TeamPage onNext={() => handleNext()} onPrev={handlePrev} />}
-          {currentStep === 4 && <MethodsPage onPrev={handlePrev} onRestart={handleRestart} />}
-        </div>
-      );
-    }
-
-    ReactDOM.render(<App />, document.getElementById('root'));
-  </script>
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
 </body>
 </html>
