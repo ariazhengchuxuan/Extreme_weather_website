@@ -1037,6 +1037,58 @@
         }
 
         function MississaugaCase({ onNext, onPrev }) {
+            const [selectedScenario, setSelectedScenario] = React.useState('10yr');
+            
+            const scenarios = {
+                '10yr': {
+                    title: '10-Year Flood Event',
+                    description: 'A relatively common flood with a 10% annual probability. Shows baseline flooding under current conditions and the effectiveness of proposed improvements.',
+                    image: 'images/case studies/etobicoke_10yr.png',
+                    inactionImpact: [
+                        'Moderate flooding at creek bend',
+                        'Several properties affected',
+                        'Manageable with current emergency response'
+                    ],
+                    actionBenefit: [
+                        'Minimal flooding even at critical locations',
+                        'Most properties protected',
+                        'Reduced emergency response burden'
+                    ]
+                },
+                '100yr': {
+                    title: '100-Year Flood Event',
+                    description: 'A major flood with a 1% annual probability. Demonstrates how infrastructure improvements provide critical protection during severe storms.',
+                    image: 'images/case studies/etobicoke_100yr.png',
+                    inactionImpact: [
+                        'Extensive residential flooding',
+                        'Significant property damage across neighborhood',
+                        'Prolonged recovery time required'
+                    ],
+                    actionBenefit: [
+                        'Dramatic reduction in flooded properties',
+                        'Protected homes even during severe event',
+                        'Faster community recovery'
+                    ]
+                },
+                '350yr': {
+                    title: '350-Year Flood Event (Extreme)',
+                    description: 'An extreme flood scenario showing catastrophic potential. Reveals how comprehensive improvements remain effective even under worst-case conditions.',
+                    image: 'images/case studies/etobicoke_350yr.png',
+                    inactionImpact: [
+                        'Catastrophic neighborhood inundation',
+                        'Widespread displacement and damage',
+                        'Long-term community disruption'
+                    ],
+                    actionBenefit: [
+                        'Community remains largely protected',
+                        'Even extreme events manageable',
+                        'Demonstrates resilience of full improvements'
+                    ]
+                }
+            };
+
+            const currentScenario = scenarios[selectedScenario];
+
             return (
                 <>
                 <div className="scenario-page">
@@ -1053,46 +1105,225 @@
                         <p className="image-caption">2D and 3D visualization of Little Etobicoke Creek flooding</p>
                     </div>
 
-                    <div className="comparison-container">
-                        <div className="scenario-card inaction">
-                            <h3>Without Engineering Improvements</h3>
-                            <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)' }}>
-                                The critical bend in the creek continues to overflow during major storms, 
-                                causing repeated flooding of nearby properties. As storms intensify with 
-                                climate change, the situation worsens.
+                    {/* Interactive Flood Scenario Comparison */}
+                    <div style={{ marginTop: '4rem', marginBottom: '3rem' }}>
+                        <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--primary)', textAlign: 'center' }}>
+                            Flood Scenario Comparison: Action vs. Inaction
+                        </h2>
+                        <p className="intro-text" style={{ textAlign: 'center', margin: '0 auto 3rem' }}>
+                            Compare different flood intensities to see how infrastructure improvements provide 
+                            protection across common, severe, and extreme events. Each scenario shows four 
+                            conditions side-by-side.
+                        </p>
+
+                        {/* Scenario Selector */}
+                        <div style={{ 
+                            display: 'flex', 
+                            justifyContent: 'center', 
+                            gap: '1rem', 
+                            marginBottom: '3rem',
+                            flexWrap: 'wrap'
+                        }}>
+                            <button
+                                onClick={() => setSelectedScenario('10yr')}
+                                style={{
+                                    padding: '1.25rem 2.5rem',
+                                    background: selectedScenario === '10yr' ? 'var(--primary)' : 'white',
+                                    color: selectedScenario === '10yr' ? 'white' : 'var(--primary)',
+                                    border: '2px solid var(--primary)',
+                                    cursor: 'pointer',
+                                    fontSize: '1.05rem',
+                                    fontWeight: '600',
+                                    borderRadius: '8px',
+                                    transition: 'all 0.3s ease',
+                                    minWidth: '160px'
+                                }}
+                            >
+                                10-Year Flood
+                            </button>
+                            <button
+                                onClick={() => setSelectedScenario('100yr')}
+                                style={{
+                                    padding: '1.25rem 2.5rem',
+                                    background: selectedScenario === '100yr' ? 'var(--primary)' : 'white',
+                                    color: selectedScenario === '100yr' ? 'white' : 'var(--primary)',
+                                    border: '2px solid var(--primary)',
+                                    cursor: 'pointer',
+                                    fontSize: '1.05rem',
+                                    fontWeight: '600',
+                                    borderRadius: '8px',
+                                    transition: 'all 0.3s ease',
+                                    minWidth: '160px'
+                                }}
+                            >
+                                100-Year Flood
+                            </button>
+                            <button
+                                onClick={() => setSelectedScenario('350yr')}
+                                style={{
+                                    padding: '1.25rem 2.5rem',
+                                    background: selectedScenario === '350yr' ? 'var(--primary)' : 'white',
+                                    color: selectedScenario === '350yr' ? 'white' : 'var(--primary)',
+                                    border: '2px solid var(--primary)',
+                                    cursor: 'pointer',
+                                    fontSize: '1.05rem',
+                                    fontWeight: '600',
+                                    borderRadius: '8px',
+                                    transition: 'all 0.3s ease',
+                                    minWidth: '160px'
+                                }}
+                            >
+                                350-Year Flood
+                            </button>
+                        </div>
+
+                        {/* Scenario Info */}
+                        <div style={{
+                            background: 'white',
+                            border: '2px solid var(--border)',
+                            borderRadius: '8px',
+                            padding: '2rem',
+                            marginBottom: '2rem',
+                            textAlign: 'center'
+                        }}>
+                            <h3 style={{ fontSize: '1.6rem', color: 'var(--primary)', marginBottom: '0.75rem' }}>
+                                {currentScenario.title}
+                            </h3>
+                            <p style={{ color: 'var(--text-medium)', fontSize: '1.05rem' }}>
+                                {currentScenario.description}
                             </p>
-                            
-                            <div className="damage-image-container">
-                                <div className="damage-image">
-                                    <img src="images/case studies/little_etobicoke_flood.jpg" alt="Current flooding at the bend" />
+                        </div>
+
+                        {/* Comparison Image */}
+                        <div style={{
+                            background: 'white',
+                            border: '2px solid var(--border)',
+                            borderRadius: '8px',
+                            padding: '2rem',
+                            marginBottom: '3rem'
+                        }}>
+                            <img 
+                                src={currentScenario.image}
+                                alt={`${currentScenario.title} comparison`}
+                                style={{ 
+                                    width: '100%', 
+                                    height: 'auto',
+                                    borderRadius: '4px',
+                                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                                    marginBottom: '1.5rem'
+                                }}
+                            />
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(4, 1fr)',
+                                gap: '1rem',
+                                paddingTop: '1.5rem',
+                                borderTop: '1px solid var(--border)'
+                            }}>
+                                <div style={{ textAlign: 'center' }}>
+                                    <strong style={{ color: 'var(--accent)', fontSize: '0.95rem' }}>
+                                        Old Channel<br/>Old Bridge
+                                    </strong>
+                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-medium)', marginTop: '0.5rem' }}>
+                                        Current state
+                                    </div>
                                 </div>
-                                <p className="image-caption">Current conditions - recurring flood damage</p>
+                                <div style={{ textAlign: 'center' }}>
+                                    <strong style={{ color: 'var(--hope-green)', fontSize: '0.95rem' }}>
+                                        New Channel<br/>Old Bridge
+                                    </strong>
+                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-medium)', marginTop: '0.5rem' }}>
+                                        Channel only
+                                    </div>
+                                </div>
+                                <div style={{ textAlign: 'center' }}>
+                                    <strong style={{ color: 'var(--accent)', fontSize: '0.95rem' }}>
+                                        Old Channel<br/>New Bridge
+                                    </strong>
+                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-medium)', marginTop: '0.5rem' }}>
+                                        Bridge only
+                                    </div>
+                                </div>
+                                <div style={{ textAlign: 'center' }}>
+                                    <strong style={{ color: 'var(--hope-green)', fontSize: '0.95rem' }}>
+                                        New Channel<br/>New Bridge
+                                    </strong>
+                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-medium)', marginTop: '0.5rem' }}>
+                                        Full improvements
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="scenario-card action">
-                            <h3>With Recommended Improvements</h3>
-                            <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)' }}>
-                                An engineering study has recommended enlargement of the river channel at the 
-                                critical bend and a new bridge with larger culverts to the east. These 
-                                improvements become increasingly important as storms get worse.
-                            </p>
-                            
-                            <div className="damage-image-container">
-                                <div className="damage-image">
-                                    <span>Image: Proposed improvements visualization (replace with actual image)</span>
+                        {/* Analysis Cards */}
+                        <div className="comparison-container">
+                            <div className="scenario-card inaction">
+                                <h3>Without Full Improvements</h3>
+                                <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)', lineHeight: '1.7' }}>
+                                    The left panels show flooding with current infrastructure (Old Channel + Old Bridge). 
+                                    Cyan-colored areas indicate flooding. Notice how water extends deep into residential 
+                                    areas, especially at the critical creek bend.
+                                </p>
+                                
+                                <div style={{
+                                    padding: '1.25rem',
+                                    borderRadius: '6px',
+                                    background: 'rgba(217, 125, 84, 0.1)',
+                                    border: '1px solid var(--accent)',
+                                    marginTop: '1.5rem'
+                                }}>
+                                    <strong style={{ color: 'var(--accent)', display: 'block', marginBottom: '0.75rem' }}>
+                                        Risk Without Action:
+                                    </strong>
+                                    <ul style={{ marginLeft: '1.5rem' }}>
+                                        {currentScenario.inactionImpact.map((impact, idx) => (
+                                            <li key={idx} style={{ marginBottom: '0.5rem' }}>{impact}</li>
+                                        ))}
+                                    </ul>
                                 </div>
-                                <p className="image-caption">With engineering improvements - protected community</p>
+                            </div>
+
+                            <div className="scenario-card action">
+                                <h3>With Recommended Improvements</h3>
+                                <p style={{ marginBottom: '1.5rem', color: 'var(--text-medium)', lineHeight: '1.7' }}>
+                                    The right panels show the dramatic difference when both channel enlargement AND 
+                                    bridge improvements are implemented (New Channel + New Bridge). Even during extreme 
+                                    events, most residential areas remain protected.
+                                </p>
+                                
+                                <div style={{
+                                    padding: '1.25rem',
+                                    borderRadius: '6px',
+                                    background: 'rgba(107, 144, 128, 0.1)',
+                                    border: '1px solid var(--hope-green)',
+                                    marginTop: '1.5rem'
+                                }}>
+                                    <strong style={{ color: 'var(--hope-green)', display: 'block', marginBottom: '0.75rem' }}>
+                                        Protection Achieved:
+                                    </strong>
+                                    <ul style={{ marginLeft: '1.5rem' }}>
+                                        {currentScenario.actionBenefit.map((benefit, idx) => (
+                                            <li key={idx} style={{ marginBottom: '0.5rem' }}>{benefit}</li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div className="explanation-box">
                         <h4>Evidence-Based Solutions</h4>
+                        <p style={{ marginBottom: '1rem' }}>
+                            The middle two panels in each comparison show partial improvements—either new channel 
+                            OR new bridge, but not both. While these provide some benefit, they demonstrate that 
+                            <strong> piecemeal approaches leave communities vulnerable during larger storms</strong>.
+                        </p>
                         <p>
-                            Engineering studies provide clear recommendations for flood mitigation. By visualizing 
-                            both current risks and proposed solutions, we help communities understand the benefits 
-                            of taking action before the next major storm arrives.
+                            Engineering studies have recommended both enlargement of the river channel at the 
+                            critical bend AND a new bridge with larger culverts. When you compare across the 
+                            10-year, 100-year, and 350-year scenarios, you can see that comprehensive improvements 
+                            remain effective even as storm severity increases—a critical consideration as climate 
+                            change brings more intense rainfall events.
                         </p>
                     </div>
 
@@ -1107,7 +1338,7 @@
         }
 
         function TeamPage({ onNext, onPrev }) {
-            // UofT Teaching & Research
+            // [Team data remains exactly the same as in the original document]
             const uoftFaculty = [
                 {
                     name: "Ron Baecker",
@@ -1160,7 +1391,6 @@
                 }
             ];
 
-            // UofT Students
             const uoftStudents = [
                 {
                     name: "Jacob",
@@ -1234,7 +1464,6 @@
                 }
             ];
 
-            // OCADU Team
             const ocaduTeam = [
                 {
                     name: "Angelika Seeschaaf Veres",
@@ -1252,7 +1481,6 @@
                 }
             ];
 
-            // Other Collaborators
             const otherCollaborators = [
                 {
                     name: "Xander",
@@ -1479,7 +1707,6 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
-            // Listen for URL hash changes for page navigation
             React.useEffect(() => {
                 const handleHashChange = () => {
                     const hash = window.location.hash;
@@ -1496,8 +1723,6 @@
                 };
 
                 window.addEventListener('hashchange', handleHashChange);
-                
-                // Check hash on initial load
                 handleHashChange();
 
                 return () => {
