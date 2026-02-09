@@ -846,7 +846,9 @@
             return (
                 <nav className="nav">
                     <div className="nav-content">
-                        <div className="nav-logo">Extreme Weather Future Lens</div>
+                        <div className="nav-logo" onClick={() => navigate('home')} style={{ cursor: 'pointer' }}>
+                            Extreme Weather Future Lens
+                        </div>
                         <div className="nav-links">
                             <div className="nav-item">
                                 <span className="nav-link">What We Do</span>
@@ -880,7 +882,7 @@
                 <footer className="footer">
                     <div className="footer-content">
                         <nav className="footer-nav">
-                            <a href="#" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</a>
+                            <a href="#" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.location.hash = ''; window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</a>
                             <a href="#case-studies" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.location.hash = 'case-studies'; }}>Case Studies</a>
                             <a href="#team" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.location.hash = 'team'; }}>Our Team</a>
                             <a href="#methodology" className="footer-nav-link" onClick={(e) => { e.preventDefault(); window.location.hash = 'methodology'; }}>Methodology</a>
@@ -1246,7 +1248,7 @@
                     role: "Interactive Media Designer",
                     bio: "Creating interactive experiences and multimedia content.",
                     expertise: ["Interactive Design", "Multimedia", "User Experience"],
-                    photo: "images/ocadu_Koby Barhad.jpg"
+                    photo: "images/ocadu_koby barhad.jpg"
                 }
             ];
 
