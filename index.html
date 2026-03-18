@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Envisioning Climate Change</title>
+    <title>Envisioning Climate Futures</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -886,7 +886,7 @@
             return (
                 <nav className="nav" style={{ position: 'fixed' }}>
                     <div className="nav-content">
-                        <div className="nav-logo" onClick={() => navigate('home')}>Envisioning Climate Change</div>
+                        <div className="nav-logo" onClick={() => navigate('home')}>Envisioning Climate Futures</div>
                         <Burger />
                         <div className={`nav-links${menuOpen ? ' open' : ''}`}>
                             <div className="nav-item">
@@ -935,6 +935,7 @@
                                     <a className="nav-dropdown-item" onClick={() => navigate('team')}>Team</a>
                                     <a className="nav-dropdown-item" onClick={() => navigate('partners')}>Partners</a>
                                     <a className="nav-dropdown-item" onClick={() => navigate('sponsors')}>Sponsors</a>
+                                    <a className="nav-dropdown-item" onClick={() => navigate('contact')}>Contact</a>
                                 </div>
                             </div>
                         </div>
@@ -1002,7 +1003,7 @@
                             <Block full>
                                 <p>For over two centuries, scientists have been advancing our understanding of the effects of greenhouse gas emissions on the earth's climate. The levels of noxious greenhouse gases — carbon dioxide, methane, and nitrous oxide — continue to increase to dangerous levels; the rate of increase is also increasing. This is unprecedented and dangerous.</p>
                                 <p>The most important reason for this is the continued burning of fossil fuels. Despite advances in renewable energy such as solar and wind technologies, fossil fuel use worldwide is still increasing. Forests and oceans have long countered the rise in atmospheric carbon dioxide by absorbing it. But the forests are disappearing due to human destruction and wildfires. The oceans are becoming acidified.</p>
-                                <p>The result is planetary global warming, which is happening at a dangerous rate. There are many consequences to this. One dramatic result is that ice caps and glaciers at the poles are shrinking. Large chunks could soon be falling off, causing meters of sea level rise across the planet. Global warming also causes more extreme weather events such as hurricanes, typhoons, floods, heat waves, droughts, and wildfires. The number and intensity of such extreme weather events increase steadily, causing more death, destruction, homelessness, migration, and stress.</p>
+                                <p>The result is planetary global warming, which is happening at a dangerous rate. There are many consequences to this. One dramatic result is that ice caps and glaciers at the poles are shrinking. Large chunks could soon be falling off, causing meters of sea level rise across the planet. Global warming also causes extreme weather events such as hurricanes, typhoons, floods, heat waves, droughts, and wildfires. The number and intensity of such extreme weather events increase steadily, causing more death, destruction, homelessness, migration, and stress.</p>
                                 <div style={{ margin: '2rem 0' }}>
                                     <ImgCard
                                         src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1773722783/Impact_of_climate_change_on_extfreme_weather_Screenshot_sdci7q.png"
@@ -1015,7 +1016,7 @@
                                     <span style={{ margin: '0 0.75rem', color: 'var(--text-light)' }}>·</span>
                                     <a href="https://www.worldweatherattribution.org/" target="_blank" rel="noopener noreferrer">worldweatherattribution.org</a>
                                 </p>
-                                <p style={{ marginTop: '1rem' }}>Our research and this website document cases and methods for mobilizing individual and community action by demonstrating that inaction in the face of climate change will lead to more destruction from extreme weather, whereas there are doable actions that will make us safer.</p>
+                                <p style={{ marginTop: '1rem' }}>Our research and this website document cases and methods for mobilizing individual and community action by demonstrating that inaction in the face of climate change will lead to more destruction from extreme weather, whereas there are doable actions by both individuals and communities that will make us safer.</p>
                             </Block>
                         </div>
 
@@ -1526,6 +1527,23 @@
             );
         }
 
+        function ContactPage() {
+            return (
+                <>
+                    <div className="content-page">
+                        <h1>Contact</h1>
+                        <div className="c-group">
+                            <Block full>
+                                <p>If you would like to learn more about our work, please feel free to reach out. We welcome inquiries from researchers, educators, policymakers, and members of the public who are interested in climate change visualization and extreme weather modelling.</p>
+                                <p>You can contact us by email at: <a href="mailto:ronald.baecker@utoronto.ca" style={{ color: 'var(--primary)', fontWeight: '500' }}>ronald.baecker@utoronto.ca</a></p>
+                            </Block>
+                        </div>
+                    </div>
+                    <Footer />
+                </>
+            );
+        }
+
         function ComingSoonPage({ title }) {
             return (
                 <>
@@ -1575,6 +1593,7 @@
                     {page === 'team' && <TeamPage onNext={() => goTo('methodology')} onPrev={() => goTo('etobicoke')} />}
                     {page === 'partners' && <PartnersPage />}
                     {page === 'sponsors' && <SponsorsPage />}
+                    {page === 'contact' && <ContactPage />}
                 </div>
             );
         }
