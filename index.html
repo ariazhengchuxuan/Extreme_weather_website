@@ -854,6 +854,7 @@
         const donItems = [{ key: 'don-river', label: 'Overview' }, { key: 'don-river-problem', label: 'The Problem' }, { key: 'don-river-solution', label: 'A Proposed Solution' }, { key: 'don-river-viz', label: 'Visualizations' }];
         const etoItems = [{ key: 'etobicoke', label: 'Overview' }, { key: 'etobicoke-problem', label: 'The Problem' }, { key: 'etobicoke-solution', label: 'A Proposed Solution' }, { key: 'etobicoke-viz', label: 'Visualizations' }];
 
+
         function NavRow({ prev, next }) {
             return (
                 <div className="nav-buttons" style={{ marginTop: '3rem', display: 'flex', justifyContent: 'space-between' }}>
@@ -889,12 +890,7 @@
                         <Burger />
                         <div className={`nav-links${menuOpen ? ' open' : ''}`}>
                             <div className="nav-item">
-                                <span className="nav-link" onClick={() => isMobile() && toggleSection('climate')}>Climate and Weather <Arr /></span>
-                                <div className="nav-dropdown" style={mDrop('climate')}>
-                                    <a className="nav-dropdown-item" onClick={() => navigate('climate-change')}>Climate change</a>
-                                    <a className="nav-dropdown-item" onClick={() => navigate('extreme-weather')}>Extreme weather</a>
-                                    <a className="nav-dropdown-item" onClick={() => navigate('climate-fuels')}>How climate change fuels extreme weather</a>
-                                </div>
+                                <span className="nav-link" onClick={() => navigate('climate-change')}>Climate and Weather</span>
                             </div>
                             <div className="nav-item">
                                 <span className="nav-link" onClick={() => isMobile() && toggleSection('whatwedo')}>What We Do <Arr /></span>
@@ -952,12 +948,12 @@
                 <footer className="footer">
                     <div className="footer-content">
                         <nav className="footer-nav">
-                            <a className="footer-nav-link" onClick={() => { window.location.hash = ''; }}>Home</a>
+                            <a className="footer-nav-link" onClick={() => { window.location.hash = 'climate-change'; }}>Climate and Weather</a>
+                            <a className="footer-nav-link" onClick={() => { window.location.hash = 'methodology'; }}>What We Do</a>
                             <a className="footer-nav-link" onClick={() => { window.location.hash = 'don-river'; }}>Examples</a>
-                            <a className="footer-nav-link" onClick={() => { window.location.hash = 'team'; }}>Teams</a>
-                            <a className="footer-nav-link" onClick={() => { window.location.hash = 'methodology'; }}>Methodology</a>
+                            <a className="footer-nav-link" onClick={() => { window.location.hash = 'team'; }}>Who We Are</a>
                         </nav>
-                        <p className="footer-copyright">© 2025 Extreme Weather Future Lens. All rights reserved.</p>
+                        <p className="footer-copyright">© 2025 envisioningclimatefutures.org. All rights reserved.</p>
                         <div className="footer-logos">
                             <img src="images/logo/logo_uoft.png" alt="University of Toronto" />
                             <img src="images/logo/logo_ocad.png" alt="OCAD University" />
@@ -996,6 +992,41 @@
             );
         }
 
+        /* ─── CLIMATE CHANGE PAGE ─── */
+        function ClimateChangePage() {
+            return (
+                <>
+                    <div className="content-page">
+                        <h1>Climate and Weather</h1>
+                        <div className="c-group">
+                            <Block full>
+                                <p>For over two centuries, scientists have been advancing our understanding of the effects of greenhouse gas emissions on the earth's climate. The levels of noxious greenhouse gases — carbon dioxide, methane, and nitrous oxide — continue to increase to dangerous levels; the rate of increase is also increasing. This is unprecedented and dangerous.</p>
+                                <p>The most important reason for this is the continued burning of fossil fuels. Despite advances in renewable energy such as solar and wind technologies, fossil fuel use worldwide is still increasing. Forests and oceans have long countered the rise in atmospheric carbon dioxide by absorbing it. But the forests are disappearing due to human destruction and wildfires. The oceans are becoming acidified.</p>
+                                <p>The result is planetary global warming, which is happening at a dangerous rate. There are many consequences to this. One dramatic result is that ice caps and glaciers at the poles are shrinking. Large chunks could soon be falling off, causing meters of sea level rise across the planet. Global warming also causes more extreme weather events such as hurricanes, typhoons, floods, heat waves, droughts, and wildfires. The number and intensity of such extreme weather events increase steadily, causing more death, destruction, homelessness, migration, and stress.</p>
+                                <div style={{ margin: '2rem 0' }}>
+                                    <ImgCard
+                                        src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1773722783/Impact_of_climate_change_on_extfreme_weather_Screenshot_sdci7q.png"
+                                        alt="Impact of climate change on extreme weather"
+                                        caption="Impact of climate change on extreme weather events"
+                                    />
+                                </div>
+                                <p>
+                                    <a href="https://www.carbonbrief.org/" target="_blank" rel="noopener noreferrer">carbonbrief.org</a>
+                                    <span style={{ margin: '0 0.75rem', color: 'var(--text-light)' }}>·</span>
+                                    <a href="https://www.worldweatherattribution.org/" target="_blank" rel="noopener noreferrer">worldweatherattribution.org</a>
+                                </p>
+                                <p style={{ marginTop: '1rem' }}>Our research and this website document cases and methods for mobilizing individual and community action by demonstrating that inaction in the face of climate change will lead to more destruction from extreme weather, whereas there are doable actions that will make us safer.</p>
+                            </Block>
+                        </div>
+
+                    </div>
+                    <Footer />
+                </>
+            );
+        }
+
+
+
         /* ─── METHODOLOGY ─── */
         function MethodologyPage() {
             return (
@@ -1014,7 +1045,7 @@
                             </Block>
                             <Block label="Approach">
                                 <p>Well-designed images help people engage thoughtfully with critical issues. We therefore visualize extreme weather events — situations where climate change affects people most directly. Depictions of floods and fires show what neighborhoods have experienced, how damage could become worse, and how risks would be reduced if we act soon. What is novel is how we create experiences that portray the difference between action and inaction and use these to motivate and enable constructive change.</p>
-                                <p>Our work integrates flood and fire modelling, data visualization, design, planning, and psychology. We develop novel visualizations and immersive environments. Unlike other work, and to maximize impact, images are designed for lay audiences, portray local phenomena, are based on real data and validated models; are static and dynamic; and portray optimistic and pessimistic scenarios.</p>
+                                <p>Our work integrates flood and fire modelling, data visualization, design, planning, and environmental psychology. We develop novel visualizations and immersive environments. Unlike other work, and to maximize impact, images are designed for lay audiences, portray local phenomena, are based on real data and validated models; are static and dynamic; and portray optimistic and pessimistic scenarios.</p>
                             </Block>
                             <Block label="Goals">
                                 <ul>
@@ -1081,18 +1112,16 @@
                                 <p>Use the tabs above to explore <strong>The Problem</strong> (the history and causes of flooding), <strong>A Proposed Solution</strong> (the Port Lands Flood Protection project), and <strong>Visualizations</strong> (our flood modelling results).</p>
                             </Block>
                             <Block label="Before & After">
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: '1.25rem' }}>
-                                    <ImgCard src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1772707917/don_river_before_ozgwmd.png" alt="Before" caption="Before reconstruction" />
-                                    <ImgCard src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1772707916/don_river_after_tzogow.png" alt="After" caption="After reconstruction (2025)" />
-                                </div>
+                                <video src="https://res.cloudinary.com/dd4p37hyq/video/upload/v1773721733/OLD-NEW_MouthOfDon_350_Year_12s_copy_csufxt.mp4" controls style={{ width: '100%', display: 'block', boxShadow: 'var(--shadow-md)', backgroundColor: '#000' }} />
+                                <p style={{ textAlign: 'center', color: 'var(--text-medium)', fontSize: '0.9rem', marginTop: '0.75rem', fontStyle: 'italic' }}>Don River Before & After Reconstruction</p>
                             </Block>
                             <Block label="Key Facts">
                                 <ul>
                                     <li>The Don River drains approximately 1,200 km² of southern Ontario</li>
-                                    <li>Major floods recorded in 1869, 1879, 1910, 1946, 1955, 1970, 2008, and 2024</li>
+                                    <li>Major floods recorded in 1869, 1879, 1884, 1910, 1916, 1918, 1928, 1940, 1946, 1955, 1970, 1979, 1980, 1991, 2008, and 2024</li>
                                     <li>The 1886 "Don River Improvement Plan" created the problematic Keating Channel</li>
                                     <li>The Port Lands Flood Protection project, completed in 2025, re-engineered the river mouth and created a new naturalized river channel</li>
-                                    <li>The project protects 15,000 new residents and significant industrial lands from flooding</li>
+                                    <li>The project will protect 15,000 residents of a new planned community from flooding.</li>
                                 </ul>
                             </Block>
                         </div>
@@ -1127,7 +1156,7 @@
                             <Block label="Keating Channel">
                                 <p>The project suffered from cost overruns, technical missteps, political controversies, and a gradual weakening of its specifications. Most of its goals were not achieved. The final mistake was to build the Keating Channel, which forced the river to make a 90-degree turn as it approached the lake.</p>
                                 <div style={{ margin: '1.75rem 0' }}><ImgCard src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1772705590/Keating_Channel_Screenshot_lu6cqa.png" alt="Keating Channel" caption="The Keating Channel" /></div>
-                                <p>Furthermore, the Channel was completed in 1922 at less than a third of the desired width. The right turn guaranteed that the industrial lands that were just south of the Keating Channel would also suffer from even worse flooding than before.</p>
+                                <p>Furthermore, the Channel was completed in 1922 at less than a third of the desired width. The right turn guaranteed that the industrial lands that were just south of the Keating Channel would now suffer from even worse flooding than before.</p>
                             </Block>
                         </div>
                         <NavRow prev={{ href: 'don-river', label: 'Overview' }} next={{ href: 'don-river-solution', label: 'A Proposed Solution' }} />
@@ -1185,9 +1214,9 @@
                             <Block label="Visualizations">
                                 <p>We have generated portrayals of real floods and plausible scenarios predicted by flood models. The figure portrays 10-, 100-, and 350-year (their "return periods" — measures of intensity) floods before and after the river mouth reconstruction completed in 2025.</p>
                                 <img src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1772707919/don_river_year_sde6oe.png" alt="Return periods" style={{ width: '100%', marginBottom: '1.5rem', display: 'block' }} />
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
-                                    <div><img src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1772707917/don_river_before_ozgwmd.png" alt="Before" style={{ width: '100%', display: 'block' }} /><p style={{ textAlign: 'center', color: 'var(--text-medium)', fontSize: '0.9rem', marginTop: '0.5rem' }}>Before reconstruction</p></div>
-                                    <div><img src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1772707916/don_river_after_tzogow.png" alt="After" style={{ width: '100%', display: 'block' }} /><p style={{ textAlign: 'center', color: 'var(--text-medium)', fontSize: '0.9rem', marginTop: '0.5rem' }}>After reconstruction</p></div>
+                                <div>
+                                    <video src="https://res.cloudinary.com/dd4p37hyq/video/upload/v1773721733/OLD-NEW_MouthOfDon_350_Year_12s_copy_csufxt.mp4" controls style={{ width: '100%', marginBottom: '1.5rem', display: 'block', boxShadow: 'var(--shadow-md)', backgroundColor: '#000' }} />
+                                    <p style={{ textAlign: 'center', color: 'var(--text-medium)', fontSize: '0.9rem', marginTop: '0.5rem' }}>Before & After reconstruction video</p>
                                 </div>
                                 <p>The Port Lands at the mouth of the river can now withstand major storms. There is still flooding to the east, which is being addressed by a subsequent flood mitigation project now underway (<a href="https://trcaca.s3.ca-central-1.amazonaws.com/app/uploads/2021/09/17175237/BEFP-Final-Class-EA-Report-August-2021_with-exec-summary.pdf" target="_blank" rel="noopener noreferrer">BEFP Final Class EA Report</a>).</p>
                             </Block>
@@ -1209,7 +1238,7 @@
                         <div className="c-group">
                             <Block full>
                                 <p>The Little Etobicoke Creek (LEC) winds its way southwards in central Mississauga, flowing through an area where natural absorptive lands have been heavily replaced by urban infrastructure. This case study examines the impact of increasingly severe storms on this vulnerable corridor, resulting in destructive floods in recent decades.</p>
-                                <p>Use the tabs above to explore <strong>The Problem</strong> (the history and causes of flooding), <strong>A Proposed Solution</strong> (the planned improvements to the Dixie area), and <strong>Visualizations</strong> (our flood modelling results for 10-year, 100-year, and 350-year storms).</p>
+                                <p>Use the tabs above to explore <strong>The Problem</strong> (the history and causes of flooding), <strong>A Proposed Solution</strong> (the planned improvements to the Dixie-Dundas area), and <strong>Visualizations</strong> (our flood modelling results for 10-year, 100-year, and 350-year storms).</p>
                             </Block>
                             <Block label="Flood Scenarios">
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: '1.25rem' }}>
@@ -1219,9 +1248,9 @@
                             </Block>
                             <Block label="Key Facts">
                                 <ul>
-                                    <li>Much of the historical absorptive farmland in northern Mississauga has been paved over by homes and factories.</li>
+                                    <li>Much of the historical absorptive farmland in northern Mississauga has been paved over by factories, shopping malls, and parking lots.</li>
                                     <li>Recent destructive flood events occurred in 2005, 2009, 2013, and twice in 2024.</li>
-                                    <li>A proposed $80M mitigation plan involves widening the creek and upgrading the Dixie Road bridge.</li>
+                                    <li>A proposed $80M mitigation plan involves widening the creek and upgrading the Dixie-Dundas Road bridge.</li>
                                     <li>Modelling shows that these improvements must be performed in tandem; neither expanding the channel nor replacing the bridge succeeds independently.</li>
                                 </ul>
                             </Block>
@@ -1254,7 +1283,7 @@
                                 <ImageCarousel images={[
                                     { src: 'https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632296/2024_Storm_of_Metro_Toronto_from_the_lake_copy_dbfrgt.jpg', caption: '2024 Storm of Metro Toronto', desc: '2024 Storm of Metro Toronto from the lake' },
                                     { src: 'https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632297/Rainfall_accumulation_2024Aug_17_copy_mqqdsi.png', caption: '2024 Storm Rainfall', desc: 'Rainfall accumulation 2024 Aug 17' },
-                                    { src: 'https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632296/LEC_near_Dixie_Landscape_Screenshot_2025-09-11_204435_copy_aafswh.png', caption: 'LEC near Dixie Landscape', desc: 'LEC near Dixie Landscape' },
+                                    { src: 'https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632296/LEC_near_Dixie_Landscape_Screenshot_2025-09-11_204435_copy_aafswh.png', caption: 'LEC near Dixie-Dundas Landscape', desc: 'LEC near Dixie-Dundas Landscape' },
                                     { src: 'https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632298/2013_Major_flooding_of_LEC_screenshot_2026-03-09_at_10.02.24_copy_yygp89.png', caption: '2013 Major flooding of LEC', desc: '2013 Major flooding of LEC' },
                                     { src: 'https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632294/oblique_VIEW_of_LEC_FLOOD_copy_okgqeo.png', caption: 'Oblique view of LEC flood', desc: 'Oblique view of LEC flood' }
                                 ]} />
@@ -1270,11 +1299,21 @@
                                         <p style={{ textAlign: 'center', color: 'var(--text-medium)', fontSize: '0.9rem', marginTop: '0.75rem', fontStyle: 'italic' }}>100-Year LEC Flyover 3D</p>
                                     </div>
                                 </div>
-                                <div style={{ background: 'white', padding: '1.5rem', border: '1px solid var(--border)', marginTop: '2rem' }}>
-                                    <p style={{ fontWeight: '500', marginBottom: '0.75rem', color: 'var(--ink)' }}>Read more:</p>
-                                    <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
-                                        <li style={{ marginBottom: '0.5rem' }}><a href="https://thepointer.com/article/2024-07-29/11-years-2-destructive-floods-millions-in-damages-why-hasn-t-mississauga-moved-quicker-to-protect-residents" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'none' }}>11 years, 2 destructive floods, millions in damages: Why hasn't Mississauga moved quicker to protect residents? (The Pointer)</a></li>
-                                        <li><a href="https://www.mississauga.com/news/council/start-the-project-immediately-mississauga-residents-push-city-to-speed-up-80m-stormwater-plan-after/article_f21a06a6-916f-594a-b2d3-86df8b66bb82.html" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'none' }}>'Start the project immediately': Mississauga residents push city to speed up $80M stormwater plan (Mississauga.com)</a></li>
+                                <div style={{ background: 'rgba(44,95,122,0.04)', padding: '1.5rem', border: '1px solid rgba(44,95,122,0.12)', marginTop: '2.5rem', borderRadius: '8px' }}>
+                                    <h3 style={{ fontSize: '1.1rem', color: 'var(--primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        📰 Newspaper Articles on the Flooding
+                                    </h3>
+                                    <ul style={{ margin: 0, paddingLeft: '0', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                        <li>
+                                            <a href="https://thepointer.com/article/2024-07-29/11-years-2-destructive-floods-millions-in-damages-why-hasn-t-mississauga-moved-quicker-to-protect-residents" target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '1rem', background: 'white', border: '1px solid rgba(44,95,122,0.15)', borderRadius: '6px', color: 'var(--primary)', textDecoration: 'none', fontWeight: '500' }}>
+                                                11 years, 2 destructive floods, millions in damages: Why hasn't Mississauga moved quicker to protect residents? <span style={{ color: 'var(--text-medium)', fontWeight: '400', fontSize: '0.9rem' }}>(The Pointer)</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.mississauga.com/news/council/start-the-project-immediately-mississauga-residents-push-city-to-speed-up-80m-stormwater-plan-after/article_f21a06a6-916f-594a-b2d3-86df8b66bb82.html" target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '1rem', background: 'white', border: '1px solid rgba(44,95,122,0.15)', borderRadius: '6px', color: 'var(--primary)', textDecoration: 'none', fontWeight: '500' }}>
+                                                'Start the project immediately': Mississauga residents push city to speed up $80M stormwater plan <span style={{ color: 'var(--text-medium)', fontWeight: '400', fontSize: '0.9rem' }}>(Mississauga.com)</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </Block>
@@ -1295,11 +1334,11 @@
                         <div className="c-group">
                             <Block label="A Proposed Solution">
                                 <p>In response to the flooding, the city of Mississauga commissioned several studies and held public meetings to report on the results. Coincidentally, the final report was published in May 2024, soon before the 2024 floods.</p>
-                                <p>The report recommended close to $80M worth of improvements including widening and deepening the creek near where it tends to flood as it makes a critical turn near Queen Frederica Drive, and also replacing the nearby bridge over Dixie Road with a greater span and with larger culverts that will allow more water to flow through.</p>
-                                <div style={{ margin: '1.5rem 0' }}><ImgCard src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632297/2024_Dixie_Area_Proposal_FLOOD._MITIGATION_Screenshot_2026-03-09_at_10.19.27_copy_d6uwbg.png" alt="Dixie proposal" caption="2024 Dixie Area Proposal Flood Mitigation" /></div>
+                                <p>The report recommended close to $80M worth of improvements including widening and deepening the creek near where it tends to flood as it makes a critical turn near Queen Frederica Drive, and also replacing the nearby bridge over Dixie-Dundas Road with a greater span and with larger culverts that will allow more water to flow through.</p>
+                                <div style={{ margin: '1.5rem 0' }}><ImgCard src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632297/2024_Dixie_Area_Proposal_FLOOD._MITIGATION_Screenshot_2026-03-09_at_10.19.27_copy_d6uwbg.png" alt="Dixie-Dundas proposal" caption="2024 Dixie-Dundas Area Proposal Flood Mitigation" /></div>
                                 <p>Reports:</p>
                                 <ul>
-                                    <li><a href="https://www.mississauga.ca/wp-content/uploads/2023/05/Dixie-Dundas_PIC-2_FINAL.pdf" target="_blank" rel="noopener noreferrer">Dixie-Dundas Flood Mitigation Feasibility Study (PIC)</a></li>
+                                    <li><a href="https://www.mississauga.ca/wp-content/uploads/2023/05/Dixie-Dundas_PIC-2_FINAL.pdf" target="_blank" rel="noopener noreferrer">Dixie-Dundas Flood Mitigation Feasibility Study</a></li>
                                     <li><a href="https://www.mississauga.ca/wp-content/uploads/2024/06/19152312/dixie-dundas-flood-mitigation-environmental-assessment-study.pdf" target="_blank" rel="noopener noreferrer">Dixie-Dundas Flood Mitigation Environmental Assessment Study</a></li>
                                 </ul>
                             </Block>
@@ -1319,25 +1358,23 @@
                         <SubNav items={etoItems} active="etobicoke-viz" />
                         <div className="c-group">
                             <Block label="Visualizations">
-                                <p>We have re-created and visualized the 2013 and 2024 LEC floods, focusing on the area near Queen Frederika Drive, Dixie Road, and just south of there.</p>
+                                <p>We have re-created and visualized the 2013 and 2024 LEC floods, focusing on the area near Queen Frederika Drive, Dixie-Dundas Road, and just south of there.</p>
                                 <p>Below we show how damage varies with the storm intensity (top: 10-year storm; below: 100- and 350-year storms); and how effects could be reduced by what engineers have recommended — the riverbed channel deepening and widening; and replacing a bridge with one that has larger culverts and so is better able to support greater flow to the east. What is interesting is that neither expanding the river channel nor replacing the bridge succeed in mitigating the damage if done by themselves.</p>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '2rem' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '1.5rem', marginTop: '2rem' }}>
                                     <div style={{ background: 'white', border: '1px solid var(--border)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
                                         <h3 style={{ fontSize: '1.4rem', color: 'var(--primary)', marginBottom: '0.5rem', textAlign: 'center' }}>10-Year Flood</h3>
                                         <p style={{ color: 'var(--text-medium)', fontSize: '0.9rem', textAlign: 'center', marginBottom: '1rem' }}>Common flood scenario</p>
                                         <img src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632897/etobicoke_10yr_z0an1b.png" alt="10yr" style={{ width: '100%', display: 'block' }} />
                                     </div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '1.5rem' }}>
-                                        <div style={{ background: 'white', border: '1px solid var(--border)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
-                                            <h3 style={{ fontSize: '1.4rem', color: 'var(--primary)', marginBottom: '0.5rem', textAlign: 'center' }}>100-Year Flood</h3>
-                                            <p style={{ color: 'var(--text-medium)', fontSize: '0.9rem', textAlign: 'center', marginBottom: '1rem' }}>Major flood scenario</p>
-                                            <img src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632896/etobicoke_100yr_mnstlq.png" alt="100yr" style={{ width: '100%', display: 'block' }} />
-                                        </div>
-                                        <div style={{ background: 'white', border: '1px solid var(--border)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
-                                            <h3 style={{ fontSize: '1.4rem', color: 'var(--primary)', marginBottom: '0.5rem', textAlign: 'center' }}>350-Year Flood</h3>
-                                            <p style={{ color: 'var(--text-medium)', fontSize: '0.9rem', textAlign: 'center', marginBottom: '1rem' }}>Extreme flood scenario</p>
-                                            <img src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632896/etobicoke_350yr_l6vv7i.png" alt="350yr" style={{ width: '100%', display: 'block' }} />
-                                        </div>
+                                    <div style={{ background: 'white', border: '1px solid var(--border)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
+                                        <h3 style={{ fontSize: '1.4rem', color: 'var(--primary)', marginBottom: '0.5rem', textAlign: 'center' }}>100-Year Flood</h3>
+                                        <p style={{ color: 'var(--text-medium)', fontSize: '0.9rem', textAlign: 'center', marginBottom: '1rem' }}>Major flood scenario</p>
+                                        <img src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632896/etobicoke_100yr_mnstlq.png" alt="100yr" style={{ width: '100%', display: 'block' }} />
+                                    </div>
+                                    <div style={{ background: 'white', border: '1px solid var(--border)', padding: '1.5rem', boxShadow: 'var(--shadow-sm)' }}>
+                                        <h3 style={{ fontSize: '1.4rem', color: 'var(--primary)', marginBottom: '0.5rem', textAlign: 'center' }}>350-Year Flood</h3>
+                                        <p style={{ color: 'var(--text-medium)', fontSize: '0.9rem', textAlign: 'center', marginBottom: '1rem' }}>Extreme flood scenario</p>
+                                        <img src="https://res.cloudinary.com/dd4p37hyq/image/upload/v1773632896/etobicoke_350yr_l6vv7i.png" alt="350yr" style={{ width: '100%', display: 'block' }} />
                                     </div>
                                 </div>
                             </Block>
@@ -1474,8 +1511,8 @@
                             <Block full>
                                 <ul>
                                     <li>Holgan 8T8 Foundation</li>
-                                    <li>Department of Computer Science, University of Toronto</li>
-                                    <li>School of Cities, University of Toronto</li>
+                                    <li><a href="https://web.cs.toronto.edu/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Department of Computer Science</a>, University of Toronto</li>
+                                    <li><a href="https://schoolofcities.utoronto.ca/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>School of Cities</a>, University of Toronto</li>
                                     <li>William T. Reeves and Ricki Blau</li>
                                     <li>John Baker</li>
                                     <li>Kim Davidson</li>
@@ -1520,9 +1557,8 @@
                 <div>
                     <Navigation />
                     {page === 'home' && <LandingPage />}
-                    {page === 'climate-change' && <ComingSoonPage title="Climate Change" />}
-                    {page === 'extreme-weather' && <ComingSoonPage title="Extreme Weather" />}
-                    {page === 'climate-fuels' && <ComingSoonPage title="How Climate Change Fuels Extreme Weather" />}
+                    {page === 'climate-change' && <ClimateChangePage />}
+
                     {page === 'methodology' && <MethodologyPage />}
                     {page === 'flood-modelling' && <FloodModellingPage />}
                     {page === 'wildfire-modelling' && <ComingSoonPage title="Modelling and Visualizing Wildfires" />}
