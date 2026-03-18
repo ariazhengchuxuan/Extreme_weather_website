@@ -1423,7 +1423,7 @@
                 },
                 {
                     institution: "University of Toronto", label: "Students & Recent Grads", accent: "blue", members: [
-                        { name: "Jacob Klimczak", title: "4th year, Computer Science", focus: "", photo: "images/toronto_Jacob.jpg" },
+                        { name: "Jacob Klimczak", title: "4th year, Computer Science", focus: "", photo: "images/toronto_Jacob.jpg", photoPos: "top center" },
                         { name: "Junyoung Seok", title: "1st year MASc, Computer Science", focus: "", photo: "images/toronto_Junyoung.jpg" },
                         { name: "Gregory Gismondi", title: "3rd year, Computer Science", focus: "", photo: "images/toronto_Gregory.jpg" },
                         { name: "Aria Zheng", title: "3rd year, Comm. Culture, Info & Tech · UTM", focus: "", photo: "images/toronto_Aria.jpg" },
@@ -1462,7 +1462,7 @@
                                                 {m.focus && <div className="tp-focus">{m.focus}</div>}
                                             </div>
                                             <div className="tp-avatar">
-                                                <img src={m.photo} alt={m.name} onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }} />
+                                                <img src={m.photo} alt={m.name} style={{ objectPosition: m.photoPos || 'center' }} onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }} />
                                                 <div className="tp-avatar-fallback" style={{ background: avatarBg(g.accent), display: 'none' }}>{initials(m.name)}</div>
                                             </div>
                                         </div>
